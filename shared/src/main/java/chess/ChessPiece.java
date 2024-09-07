@@ -1,5 +1,6 @@
 package chess;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -47,6 +48,21 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        throw new RuntimeException("Not implemented");
+        Collection<ChessMove> moves = new ArrayList<>();
+        ChessPiece.PieceType type = getPieceType();
+        ChessGame.TeamColor color = getTeamColor();
+
+        switch (type) {
+            // Bishop case moves
+            case BISHOP -> addBishopMoves(board, myPosition, moves, color);
+
+            // Add cases for other piece types
+            default -> throw new UnsupportedOperationException("Piece type not supported");
+        }
+
+        return moves;
+    }
+    private void addBishopMoves(ChessBoard board, ChessPosition myPosition, Collection<ChessMove> moves, ChessGame.TeamColor color) {
+        // Need logic to calculate bishop moves
     }
 }
