@@ -2,6 +2,7 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Represents a single chess piece
@@ -52,21 +53,15 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        Collection<ChessMove> moves = new ArrayList<>();
-        ChessPiece.PieceType type = getPieceType();
-        ChessGame.TeamColor color = getTeamColor();
+        List<ChessMove> moves = new ArrayList<>();
 
         switch (type) {
-            // Bishop case moves
-            case BISHOP -> addBishopMoves(board, myPosition, moves, color);
-
-            // Add cases for other piece types
-            default -> throw new UnsupportedOperationException("Piece type not supported");
+            case BISHOP:
+                moves = addMoves.addBishopMoves(board, myPosition);
+                break;
+            default:
+                moves = new ArrayList<>();
         }
-
         return moves;
     }
-    private void addBishopMoves(ChessBoard board, ChessPosition myPosition, Collection<ChessMove> moves, ChessGame.TeamColor color) {
-        // Need logic to calculate bishop moves
     }
-}
