@@ -151,4 +151,40 @@ public class addMoves {
         return moves;
     }
 
+    public static ArrayList<ChessMove> addRookMoves (ChessBoard board, ChessPosition myPosition) {
+        ArrayList<ChessMove> moves = new ArrayList<>();
+        int my_currentrow = myPosition.getRow();
+        int my_currentcol = myPosition.getColumn();
+
+        // Move Up
+        for (int row = my_currentrow +1; row <= 8; ++row){
+            if (addValidMoveCollsions(moves, board, my_currentrow,my_currentcol,row,my_currentcol)){
+                break;
+            }
+        }
+
+        // Move left
+        for (int col = my_currentcol - 1; col >= 1; --col) {
+            if (addValidMoveCollsions(moves, board, my_currentrow,my_currentcol,my_currentrow,col)){
+                break;
+            }
+        }
+
+        // Move down
+        for (int row = my_currentrow - 1; row >= 1; --row) {
+            if (addValidMoveCollsions(moves, board, my_currentrow,my_currentcol,row, my_currentcol)){
+                break;
+            }
+        }
+
+        // Move right
+        for (int col = my_currentcol + 1; col <= 8; ++col) {
+            if (addValidMoveCollsions(moves, board,my_currentrow,my_currentcol,my_currentrow,col)){
+                break;
+            }
+        }
+
+        return moves;
+    }
+
 }
