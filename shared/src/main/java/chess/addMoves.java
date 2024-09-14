@@ -40,7 +40,7 @@ public class addMoves {
             addMove(moves,current_row,current_col, row, col, false);
         }
         else {
-            if (current_piece.getTeamColor() != board.getPiece(new ChessPosition(row, col)).getTeamColor()) {
+            if (current_piece.getTeamColor() != board.getPiece(new ChessPosition(current_row, current_col)).getTeamColor()) {
                 addMove(moves,current_row,current_col,row,col,false);
             }
             return true;
