@@ -87,6 +87,9 @@ public class ChessPiece {
             case ROOK:
                 moves = addMoves.addRookMoves(board, myPosition);
                 break;
+            case KING:
+                moves = addMoves.addKingMoves(board, myPosition);
+                break;
             default:
                 moves = new ArrayList<>();
         }

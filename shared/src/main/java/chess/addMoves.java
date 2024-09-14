@@ -187,4 +187,14 @@ public class addMoves {
         return moves;
     }
 
+    public static ArrayList<ChessMove> addKingMoves (ChessBoard board, ChessPosition myPosition) {
+        ArrayList<ChessMove> moves = new ArrayList<>();
+        int my_currentrow = myPosition.getRow();
+        int my_currentcol = myPosition.getColumn();
+
+
+        // King can only move to the square around him
+        
+        return moves;
+    }
 }
