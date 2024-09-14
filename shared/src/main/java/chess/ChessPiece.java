@@ -81,6 +81,9 @@ public class ChessPiece {
             case BISHOP:
                 moves = addMoves.addBishopMoves(board, myPosition);
                 break;
+            case QUEEN:
+                moves = addMoves.addQueenMoves(board,myPosition);
+                break;
             default:
                 moves = new ArrayList<>();
         }
