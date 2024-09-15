@@ -250,7 +250,12 @@ public class addMoves {
             for (int i = 0; i < rowOffsets.length; i++) {
                 int newRow = my_currentrow + rowOffsets[i];
                 int newCol = my_currentcol + colOffsets[i];
-                addValidMoveCollsions(moves, board, my_currentrow, my_currentcol, newRow, newCol);
+                // get promoted if the next pawn move is at the baseline
+                if (my_currentrow == 2 ) {
+                    addMove(moves, my_currentrow,my_currentcol,newRow,newCol,true);
+                } else {
+                    addValidMoveCollsions(moves, board, my_currentrow, my_currentcol, newRow, newCol);
+                }
             }
 
         }
@@ -263,7 +268,12 @@ public class addMoves {
             for (int i = 0; i < rowOffsets.length; i++) {
                 int newRow = my_currentrow + rowOffsets[i];
                 int newCol = my_currentcol + colOffsets[i];
-                addValidMoveCollsions(moves, board, my_currentrow, my_currentcol, newRow, newCol);
+                // get promoted if the next pawn move is at the baseline
+                if (my_currentrow == 7 ) {
+                    addMove(moves, my_currentrow,my_currentcol,newRow,newCol,true);
+                } else {
+                    addValidMoveCollsions(moves, board, my_currentrow, my_currentcol, newRow, newCol);
+                }
             }
 
         }
@@ -301,7 +311,12 @@ public class addMoves {
             for (int i = 0; i < rowOffsets.length; i++) {
                 int newRow = my_currentrow + rowOffsets[i];
                 int newCol = my_currentcol + colOffsets[i];
-                addValidMoveCollsions(moves, board, my_currentrow, my_currentcol, newRow, newCol);
+                // get promoted if the next pawn move is at the baseline
+                if (my_currentrow == 2 ) {
+                    addMove(moves, my_currentrow,my_currentcol,newRow,newCol,true);
+                } else {
+                    addValidMoveCollsions(moves, board, my_currentrow, my_currentcol, newRow, newCol);
+                }
             }
 
         }
@@ -314,7 +329,12 @@ public class addMoves {
             for (int i = 0; i < rowOffsets.length; i++) {
                 int newRow = my_currentrow + rowOffsets[i];
                 int newCol = my_currentcol + colOffsets[i];
-                addValidMoveCollsions(moves, board, my_currentrow, my_currentcol, newRow, newCol);
+                // get promoted if the next pawn move is at the baseline
+                if (my_currentrow == 2 ) {
+                    addMove(moves, my_currentrow,my_currentcol,newRow,newCol,true);
+                } else {
+                    addValidMoveCollsions(moves, board, my_currentrow, my_currentcol, newRow, newCol);
+                }
             }
 
         }
