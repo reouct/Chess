@@ -90,6 +90,9 @@ public class ChessPiece {
             case KING:
                 moves = addMoves.addKingMoves(board, myPosition);
                 break;
+            case KNIGHT:
+                moves = addMoves.addKnightMoves(board, myPosition);
+                break;
             default:
                 moves = new ArrayList<>();
         }

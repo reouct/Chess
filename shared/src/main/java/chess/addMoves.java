@@ -204,9 +204,25 @@ public class addMoves {
                 addValidMoveCollsions(moves, board, my_currentrow, my_currentcol, newRow, newCol);
             }
         }
+        return moves;
+    }
 
-        
+    public static ArrayList<ChessMove> addKnightMoves (ChessBoard board, ChessPosition myPosition) {
+        ArrayList<ChessMove> moves = new ArrayList<>();
+        int my_currentrow = myPosition.getRow();
+        int my_currentcol = myPosition.getColumn();
 
+        // Knight moves L shape
+        int[] rowOffsets = {-1,-2,-1,-2,1,2,2,1};
+        int[] colOffsets = {2,1,-2,-1,2,1,-1,-2};
+
+        for (int i = 0; i < rowOffsets.length; i++){
+            int newRow = my_currentrow + rowOffsets[i];
+            int newCol = my_currentcol + colOffsets[i];
+            if (newRow >= 1 && newRow <= 8 && newCol >= 1 && newCol <= 8){
+                addValidMoveCollsions(moves, board,my_currentrow,my_currentcol,newRow,newCol);
+            }
+        }
 
         return moves;
     }
