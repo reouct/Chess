@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import static chess.addMoves.addBlackPawnMoves;
+import static chess.addMoves.addWhitePawnMoves;
+
 /**
  * Represents a single chess piece
  * <p>
@@ -92,6 +95,13 @@ public class ChessPiece {
                 break;
             case KNIGHT:
                 moves = addMoves.addKnightMoves(board, myPosition);
+                break;
+            case PAWN:
+                if (this.getTeamColor() == ChessGame.TeamColor.WHITE){
+                    moves = addWhitePawnMoves(board, myPosition);
+                } else {
+                    moves = addBlackPawnMoves(board, myPosition);
+                }
                 break;
             default:
                 moves = new ArrayList<>();
