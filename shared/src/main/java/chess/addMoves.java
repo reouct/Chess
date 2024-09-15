@@ -239,7 +239,35 @@ public class addMoves {
                 addMove(moves, my_currentrow, my_currentcol, my_currentrow + 1, my_currentcol, false);
             }
         }
-        // Pawn can capture left diagonally or right diagonally, and it can get promoted if it reach the end line
+
+        // White Pawn can capture left diagonally or right diagonally
+
+        // White Pawn move right up diagonally
+        if ((board.getPiece(new ChessPosition(my_currentrow + 1, my_currentcol + 1)) != null)){
+            int[] rowOffsets = {1};
+            int[] colOffsets = {1};
+
+            for (int i = 0; i < rowOffsets.length; i++) {
+                int newRow = my_currentrow + rowOffsets[i];
+                int newCol = my_currentcol + colOffsets[i];
+                addValidMoveCollsions(moves, board, my_currentrow, my_currentcol, newRow, newCol);
+            }
+
+        }
+
+        // White pawn moves left up diagonally
+        if ((board.getPiece(new ChessPosition(my_currentrow + 1, my_currentcol - 1)) != null)){
+            int[] rowOffsets = {1};
+            int[] colOffsets = {-1};
+
+            for (int i = 0; i < rowOffsets.length; i++) {
+                int newRow = my_currentrow + rowOffsets[i];
+                int newCol = my_currentcol + colOffsets[i];
+                addValidMoveCollsions(moves, board, my_currentrow, my_currentcol, newRow, newCol);
+            }
+
+        }
+
         return moves;
     }
 
@@ -261,6 +289,34 @@ public class addMoves {
             } else {
                 addMove(moves, my_currentrow, my_currentcol, my_currentrow - 1, my_currentcol, false);
             }
+        }
+
+        // Black Pawn can capture left diagonally or right diagonally
+
+        // Black Pawn move left down diagonally
+        if ((board.getPiece(new ChessPosition(my_currentrow - 1, my_currentcol - 1)) != null)){
+            int[] rowOffsets = {-1};
+            int[] colOffsets = {-1};
+
+            for (int i = 0; i < rowOffsets.length; i++) {
+                int newRow = my_currentrow + rowOffsets[i];
+                int newCol = my_currentcol + colOffsets[i];
+                addValidMoveCollsions(moves, board, my_currentrow, my_currentcol, newRow, newCol);
+            }
+
+        }
+
+        // Black Pawn move right down diagonally
+        if ((board.getPiece(new ChessPosition(my_currentrow - 1, my_currentcol + 1)) != null)){
+            int[] rowOffsets = {-1};
+            int[] colOffsets = {1};
+
+            for (int i = 0; i < rowOffsets.length; i++) {
+                int newRow = my_currentrow + rowOffsets[i];
+                int newCol = my_currentcol + colOffsets[i];
+                addValidMoveCollsions(moves, board, my_currentrow, my_currentcol, newRow, newCol);
+            }
+
         }
 
         return moves;
