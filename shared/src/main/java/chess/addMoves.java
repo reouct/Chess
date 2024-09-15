@@ -194,7 +194,20 @@ public class addMoves {
 
 
         // King can only move to the square around him
+        int[] rowOffsets = {-1, -1, -1, 0, 0, 1, 1, 1};
+        int[] colOffsets = {-1, 0, 1, -1, 1, -1, 0, 1};
+
+        for (int i = 0; i < rowOffsets.length; i++) {
+            int newRow = my_currentrow + rowOffsets[i];
+            int newCol = my_currentcol + colOffsets[i];
+            if (newRow >= 1 && newRow <= 8 && newCol >= 1 && newCol <= 8) {
+                addValidMoveCollsions(moves, board, my_currentrow, my_currentcol, newRow, newCol);
+            }
+        }
+
         
+
+
         return moves;
     }
 }
