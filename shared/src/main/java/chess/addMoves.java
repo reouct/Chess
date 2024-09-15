@@ -231,7 +231,7 @@ public class addMoves {
         }
 
         // White Pawn can move forward one step
-        else if (my_currentrow < 8 && board.getPiece(new ChessPosition(my_currentrow + 1, my_currentcol)) == null) {
+        if (my_currentrow < 8 && board.getPiece(new ChessPosition(my_currentrow + 1, my_currentcol)) == null) {
 
             if (my_currentrow + 1 == 8) {
                 addMove(moves, my_currentrow, my_currentcol, my_currentrow + 1, my_currentcol, true);
