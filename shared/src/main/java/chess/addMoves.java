@@ -24,16 +24,6 @@ public class addMoves {
         }
     }
 
-    public static void AddValidMove(ChessBoard board, Collection<ChessMove> moves, int current_row, int current_col, int row, int col ){
-        ChessPiece current_piece;
-        if ((current_row + row) > 1 && (current_col + col) > 1) {
-            current_piece = board.getPiece(new ChessPosition(current_row+row, current_col+col));
-            if (current_piece == null || current_piece.getTeamColor() != board.getPiece(new ChessPosition(row,col)).getTeamColor()) {
-                addMove(moves, current_row, current_col,current_row+row, current_col + col,false);
-            }
-        }
-    }
-
     public static boolean addValidMoveCollsions(Collection<ChessMove> moves, ChessBoard board, int current_row, int current_col, int row, int col) {
         ChessPiece current_piece = board.getPiece(new ChessPosition(row,col));
         if (current_piece == null) {
