@@ -1,9 +1,7 @@
 package chess;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 import static chess.ChessPiece.PieceType.QUEEN;
 import static chess.ChessPiece.PieceType.BISHOP;
@@ -235,7 +233,7 @@ public class addMoves {
 
             if (my_currentrow + 1 == 8) {
                 addMove(moves, my_currentrow, my_currentcol, my_currentrow + 1, my_currentcol, true);
-            } else {
+            } else  {
                 addMove(moves, my_currentrow, my_currentcol, my_currentrow + 1, my_currentcol, false);
             }
         }
@@ -243,7 +241,7 @@ public class addMoves {
         // White Pawn can capture left diagonally or right diagonally
 
         // White Pawn move right up diagonally
-        if ((board.getPiece(new ChessPosition(my_currentrow + 1, my_currentcol + 1)) != null)){
+        if (my_currentrow +1 >=1 && my_currentrow +1 <=8 && my_currentcol +1 >= 1 && my_currentcol +1 <=8 && (board.getPiece(new ChessPosition(my_currentrow + 1, my_currentcol + 1)) != null)){
             int[] rowOffsets = {1};
             int[] colOffsets = {1};
 
@@ -251,9 +249,9 @@ public class addMoves {
                 int newRow = my_currentrow + rowOffsets[i];
                 int newCol = my_currentcol + colOffsets[i];
                 // get promoted if the next pawn move is at the baseline
-                if (my_currentrow == 2 ) {
+                if (my_currentrow == 7 ) {
                     addMove(moves, my_currentrow,my_currentcol,newRow,newCol,true);
-                } else {
+                } else{
                     addValidMoveCollsions(moves, board, my_currentrow, my_currentcol, newRow, newCol);
                 }
             }
@@ -261,7 +259,8 @@ public class addMoves {
         }
 
         // White pawn moves left up diagonally
-        if ((board.getPiece(new ChessPosition(my_currentrow + 1, my_currentcol - 1)) != null)){
+
+        if (my_currentrow +1 >= 1 && my_currentcol -1 <= 8 && my_currentcol -1 >= 1 && my_currentrow +1 <= 8 && (board.getPiece(new ChessPosition(my_currentrow + 1, my_currentcol - 1)) != null)){
             int[] rowOffsets = {1};
             int[] colOffsets = {-1};
 
@@ -304,7 +303,7 @@ public class addMoves {
         // Black Pawn can capture left diagonally or right diagonally
 
         // Black Pawn move left down diagonally
-        if ((board.getPiece(new ChessPosition(my_currentrow - 1, my_currentcol - 1)) != null)){
+        if (my_currentrow -1 >=1 && my_currentrow -1 <=8 && my_currentcol -1 >= 1 && my_currentcol -1 <=8 &&(board.getPiece(new ChessPosition(my_currentrow - 1, my_currentcol - 1)) != null)){
             int[] rowOffsets = {-1};
             int[] colOffsets = {-1};
 
@@ -322,7 +321,7 @@ public class addMoves {
         }
 
         // Black Pawn move right down diagonally
-        if ((board.getPiece(new ChessPosition(my_currentrow - 1, my_currentcol + 1)) != null)){
+        if (my_currentrow -1 >=1 && my_currentrow -1 <=8 && my_currentcol +1 >= 1 && my_currentcol +1 <=8 &&(board.getPiece(new ChessPosition(my_currentrow - 1, my_currentcol + 1)) != null)){
             int[] rowOffsets = {-1};
             int[] colOffsets = {1};
 
@@ -338,6 +337,8 @@ public class addMoves {
             }
 
         }
+
+
 
         return moves;
     }
