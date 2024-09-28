@@ -10,7 +10,7 @@ import java.util.Objects;
  * signature of the existing methods.
  */
 public class ChessBoard {
-    private ChessPiece[][] squares = new ChessPiece[8][8];
+    private ChessPiece[][] squares;
 
     @Override
     public boolean equals(Object o) {
@@ -26,7 +26,16 @@ public class ChessBoard {
     }
 
     public ChessBoard() {
+        squares = new ChessPiece[8][8];
+    }
 
+    public ChessBoard(ChessBoard old) {
+        squares = new ChessPiece[8][8];
+        for (int r = 0; r < 8; ++r) {
+            for (int c = 0; c < 8; ++c) {
+                this.squares[r][c] = old.squares[r][c];
+            }
+        }
     }
 
     /**
