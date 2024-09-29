@@ -2,6 +2,7 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * For a class that can manage a chess game, making moves on a board
@@ -10,6 +11,31 @@ import java.util.Collection;
  * signature of the existing methods.
  */
 public class ChessGame {
+    @Override
+    public String toString() {
+        return "ChessGame{" +
+                "board=" + board +
+                ", history=" + history +
+                ", turn=" + turn +
+                ", whiteCM=" + whiteCM +
+                ", blackCM=" + blackCM +
+                ", whiteSM=" + whiteSM +
+                ", blackSM=" + blackSM +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChessGame chessGame = (ChessGame) o;
+        return whiteCM == chessGame.whiteCM && blackCM == chessGame.blackCM && whiteSM == chessGame.whiteSM && blackSM == chessGame.blackSM && Objects.equals(board, chessGame.board) && Objects.equals(history, chessGame.history) && turn == chessGame.turn;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(board, history, turn, whiteCM, blackCM, whiteSM, blackSM);
+    }
 
     private ChessBoard board;
     private ArrayList<ChessBoard> history = new ArrayList<ChessBoard>();
@@ -107,18 +133,18 @@ public class ChessGame {
      * @return Set of valid moves for requested piece, or null if no piece at
      * startPosition
      */
-    public Collection<ChessMove> validMoves(ChessPosition startPosition){
+    public Collection<ChessMove> validMoves(ChessPosition startPosition) {
         ChessPiece piece = board.getPiece(startPosition);
         Collection<ChessMove> validMoves = new ArrayList<>();
-        Collection<ChessMove> possibleMoves = piece.pieceMoves(board,startPosition);
+        Collection<ChessMove> possibleMoves = piece.pieceMoves(board, startPosition);
 
         for (ChessMove move : possibleMoves) {
-            ChessBoard newBoard = new ChessBoard(board);
+            ChessBoard newBoard = new ChessBoard(board); // Assuming this is a deep copy
             addMove(move, newBoard);
+
             if (!isInCheck(piece.getTeamColor(), newBoard)) {
                 validMoves.add(move);
             }
-
         }
 
         return validMoves;
@@ -127,13 +153,18 @@ public class ChessGame {
     private void addMove(ChessMove move, ChessBoard board) {
         ChessPiece piece = board.getPiece(move.getStartPosition());
         if (piece != null) {
-            board.addPiece(move.getEndPosition(), piece);
-            if (move.getPromotionPiece() != null) {
-                board.addPiece(move.getEndPosition(), new ChessPiece(piece.getTeamColor(), move.getPromotionPiece()));
+            board.removePiece(move.getStartPosition()); // Remove piece from the start
+
+            // Handle promotion: Only promote if the move is valid for a pawn promotion
+            if (move.getPromotionPiece() != null && (move.getEndPosition().getRow() == 0 || move.getEndPosition().getRow() == 7)) {
+                ChessPiece promoPiece = new ChessPiece(piece.getTeamColor(), move.getPromotionPiece());
+                board.addPiece(move.getEndPosition(), promoPiece);
+            } else {
+                board.addPiece(move.getEndPosition(), piece); // Regular move
             }
-            board.addPiece(move.getStartPosition(), null);
         }
     }
+
 
     /**
      * Makes a move in a chess game
