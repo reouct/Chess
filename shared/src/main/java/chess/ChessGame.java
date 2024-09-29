@@ -135,18 +135,18 @@ public class ChessGame {
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
         ChessPiece piece = board.getPiece(startPosition);
+        if (piece == null) {
+            return null;
+        }
+        Collection<ChessMove> possibleMoves = piece.pieceMoves(board,startPosition);
         Collection<ChessMove> validMoves = new ArrayList<>();
-        Collection<ChessMove> possibleMoves = piece.pieceMoves(board, startPosition);
-
         for (ChessMove move : possibleMoves) {
-            ChessBoard newBoard = new ChessBoard(board); // Assuming this is a deep copy
-            addMove(move, newBoard);
-
-            if (!isInCheck(piece.getTeamColor(), newBoard)) {
+            ChessBoard tempBoard = new ChessBoard(board);
+            addMove(move,tempBoard);
+            if (!isInCheck(piece.getTeamColor(),tempBoard)) {
                 validMoves.add(move);
             }
         }
-
         return validMoves;
     }
 
