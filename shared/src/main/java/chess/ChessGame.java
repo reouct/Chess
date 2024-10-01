@@ -47,6 +47,7 @@ public class ChessGame {
 
     public ChessGame() {
         board = new ChessBoard();
+        board.resetBoard();
         this.turn = TeamColor.WHITE;
         this.whiteCM = false;
         this.blackCM = false;
