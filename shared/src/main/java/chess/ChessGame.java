@@ -58,34 +58,44 @@ public class ChessGame {
     }
 
     private boolean isStalemate() {
-        if (isInCheck(turn)) return false;
-        for (int i = 1; i <= 8; i++) {
-            for (int j = 1; j <= 8; j++) {
-                ChessPosition testPos = new ChessPosition(i, j);
-                ChessPiece testPiece = board.getPiece(testPos);
-                if (testPiece != null) {
-                    if (testPiece.getTeamColor() == turn && !validMoves(testPos).isEmpty()) {
+        if (isInCheck(turn)) {
+            return false;
+        }
+
+        for (int row = 1; row <= 8; row++) {
+            for (int col = 1; col <= 8; col++) {
+                ChessPosition position = new ChessPosition(row, col);
+                ChessPiece piece = board.getPiece(position);
+
+                if (piece != null && piece.getTeamColor() == turn) {
+                    if (!validMoves(position).isEmpty()) {
                         return false;
                     }
                 }
             }
         }
+
         return true;
     }
 
     private boolean isCheckmate() {
-        if (!isInCheck(turn)) return false;
-        for (int i = 1; i <= 8; i++) {
-            for (int j = 1; j <= 8; j++) {
-                ChessPosition testPos = new ChessPosition(i, j);
-                ChessPiece testPiece = board.getPiece(testPos);
-                if (testPiece != null) {
-                    if (testPiece.getTeamColor() == turn && !validMoves(testPos).isEmpty()) {
+        if (!isInCheck(turn)) {
+            return false;
+        }
+
+        for (int row = 1; row <= 8; row++) {
+            for (int col = 1; col <= 8; col++) {
+                ChessPosition position = new ChessPosition(row, col);
+                ChessPiece piece = board.getPiece(position);
+
+                if (piece != null && piece.getTeamColor() == turn) {
+                    if (!validMoves(position).isEmpty()) {
                         return false;
                     }
                 }
             }
         }
+
         return true;
     }
 
