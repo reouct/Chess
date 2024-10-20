@@ -18,23 +18,8 @@ public class ClearHandler {
 //        return "";
 //    }
     public static Object clearAllData(Request req, Response res) throws DataAccessException {
-        clearService.clear();
+        ClearService.clear();
         res.status(200);
         return "{}";
     }
-
-//    public static Object clearApplication(Request request, Response response) {
-//        String responseBody = "";
-//        try {
-//            ClearService.clear();
-//            response.status(200);
-//            responseBody = "{\"message\": \"Application data cleared successfully\"}";
-//        } catch (DataAccessException e) {
-//            response.status(e.statusCode);
-//            responseBody = "{\"message\": \"" + e.getMessage() + "\"}";
-//        } finally {
-//            response.type("application/json");
-//            return responseBody;
-//        }
-//    }
 }

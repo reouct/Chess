@@ -12,10 +12,11 @@ public class ClearService {
     static GameDAO gameDao;
     static AuthDAO authDao;
 
+
     public ClearService(UserDAO userDao, GameDAO gameDao, AuthDAO authDao) {
-        this.userDao = userDao;
-        this.authDao = authDao;
-        this.gameDao = gameDao;
+        ClearService.userDao = userDao;
+        ClearService.authDao = authDao;
+        ClearService.gameDao = gameDao;
     }
     public static void clear() throws DataAccessException {
         gameDao.clear();
@@ -23,3 +24,4 @@ public class ClearService {
         userDao.clear();
     }
 }
+
