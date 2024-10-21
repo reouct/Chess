@@ -17,8 +17,8 @@ public class ClearHandler {
 //        res.status(204);
 //        return "";
 //    }
-    public static Object clearAllData(Request req, Response res) throws DataAccessException {
-        ClearService.clear();
+    public Object clearAllData(Request req, Response res) throws DataAccessException {
+        clearService.clear();
         res.status(200);
         return "{}";
     }

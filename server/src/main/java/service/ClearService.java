@@ -8,17 +8,17 @@ import dataaccess.interfaces.AuthDAO;
 
 public class ClearService {
 
-    static UserDAO userDao;
-    static GameDAO gameDao;
-    static AuthDAO authDao;
+    private UserDAO userDao;
+    private GameDAO gameDao;
+    private AuthDAO authDao;
 
 
     public ClearService(UserDAO userDao, GameDAO gameDao, AuthDAO authDao) {
-        ClearService.userDao = userDao;
-        ClearService.authDao = authDao;
-        ClearService.gameDao = gameDao;
+        this.userDao = userDao;
+        this.authDao = authDao;
+        this.gameDao = gameDao;
     }
-    public static void clear() throws DataAccessException {
+    public void clear() throws DataAccessException {
         gameDao.clear();
         authDao.clear();
         userDao.clear();

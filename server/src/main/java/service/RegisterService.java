@@ -2,6 +2,7 @@ package service;
 
 import dataaccess.DataAccessException;
 import dataaccess.interfaces.UserDAO;
+import model.UserData;
 import org.eclipse.jetty.server.Authentication;
 
 
@@ -13,6 +14,6 @@ public class RegisterService {
     }
 
     public void register(Authentication.User user) throws DataAccessException {
-
+    userDao.createUser(new UserData("username", "password", "email"));
     }
 }
