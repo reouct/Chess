@@ -17,7 +17,7 @@ public class MemoryUserDAO implements UserDAO {
 
     @Override
     public void createUser(UserData data) {
-
+        user.add(data);
     }
 
     @Override

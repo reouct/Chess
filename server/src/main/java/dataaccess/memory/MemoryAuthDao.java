@@ -1,10 +1,13 @@
 package dataaccess.memory;
 
+import dataaccess.DataAccessException;
 import dataaccess.interfaces.AuthDAO;
 import model.AuthData;
+import model.UserData;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 public class MemoryAuthDao implements AuthDAO {
 
@@ -15,8 +18,10 @@ public class MemoryAuthDao implements AuthDAO {
     }
 
     @Override
-    public void createAuth(AuthData data) {
-    // needs implement
+    public String createAuth(UserData data) {
+        String newToken = UUID.randomUUID().toString();
+        auth.add(new AuthData(newToken, data.username()));
+        return newToken;
     }
 
     @Override

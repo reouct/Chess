@@ -8,9 +8,9 @@ import dataaccess.interfaces.AuthDAO;
 
 public class ClearService {
 
-    private UserDAO userDao;
-    private GameDAO gameDao;
-    private AuthDAO authDao;
+    private final UserDAO userDao;
+    private final GameDAO gameDao;
+    private final AuthDAO authDao;
 
 
     public ClearService(UserDAO userDao, GameDAO gameDao, AuthDAO authDao) {
