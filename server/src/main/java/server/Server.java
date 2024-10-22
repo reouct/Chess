@@ -11,6 +11,7 @@ import handler.ClearHandler;
 //import handler.RegisterHandler;
 import handler.RegisterHandler;
 import service.ClearService;
+import service.LoginService;
 import service.RegisterService;
 import spark.*;
 
@@ -20,6 +21,7 @@ public class Server {
     private final AuthDAO authDao = new MemoryAuthDao();
     private final ClearService clearService = new ClearService(userDao,gameDao,authDao);
     private final RegisterService registerService = new RegisterService(userDao, authDao);
+    //private final LoginService loginService = new LoginService();
 
 
     public int run(int desiredPort) {
@@ -31,6 +33,7 @@ public class Server {
         // Register your endpoints and handle exceptions here.
         Spark.delete("/db", clearHandler::clearAllData);
         Spark.post("/user", registerHandler::registerUser);
+        //Spark.post("/session", loginService::loginUser);
         //This line initializes the server and can be removed once you have a functioning endpoint 
         //park.init();
 
