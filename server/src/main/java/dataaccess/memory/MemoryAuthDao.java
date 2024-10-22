@@ -1,6 +1,5 @@
 package dataaccess.memory;
 
-import dataaccess.DataAccessException;
 import dataaccess.interfaces.AuthDAO;
 import model.AuthData;
 import model.UserData;
@@ -18,9 +17,9 @@ public class MemoryAuthDao implements AuthDAO {
     }
 
     @Override
-    public String createAuth(UserData data) {
+    public String createAuth(String username) {
         String newToken = UUID.randomUUID().toString();
-        auth.add(new AuthData(newToken, data.username()));
+        auth.add(new AuthData(newToken, username));
         return newToken;
     }
 
@@ -30,7 +29,26 @@ public class MemoryAuthDao implements AuthDAO {
     }
 
     @Override
-    public void getUser(AuthData data) {
-    // need implement
+    public AuthData getAuth(AuthData data) {
+        for (AuthData a : auth) {
+            if(a.authToken().equals(data)){
+                return a;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public AuthData getAuth(String data) {
+//        for (AuthData a : auth){
+//            if(a.authToken().equals(data.authToken())){
+//                return a;
+//            }
+        for (AuthData a : auth) {
+            if(a.authToken().equals(data)){
+                return a;
+            }
+        }
+        return null;
     }
 }

@@ -3,6 +3,7 @@ package service;
 import dataaccess.DataAccessException;
 import dataaccess.interfaces.AuthDAO;
 import dataaccess.interfaces.UserDAO;
+import model.AuthData;
 import model.UserData;
 
 
@@ -15,14 +16,12 @@ public class RegisterService {
         this.authDao = authDao;
     }
 
-    public void registerUser(UserData user) throws DataAccessException{
-        if(userDao.getUser(user) != null ){
+    public AuthData registerUser(UserData user) throws DataAccessException{
+        if(userDao.getUser(user.username()) != null ){
             throw new DataAccessException("Error: already taken");
         }
         userDao.createUser(user);
-    }
-
-    public String createAuthToken(UserData newUser) {
-        return authDao.createAuth(newUser);
+        String authtoken = authDao.createAuth(user.username());
+        return new AuthData(authtoken, user.username());
     }
 }

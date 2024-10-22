@@ -15,8 +15,7 @@ public class SQLUserDAO implements UserDAO {
     }
 
     @Override
-    public UserData getUser(UserData data) {
-        // need implementation
+    public UserData getUser(String username) {
         return null;
     }
 }

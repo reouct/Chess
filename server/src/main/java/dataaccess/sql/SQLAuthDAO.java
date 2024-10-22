@@ -12,10 +12,9 @@ public class SQLAuthDAO implements AuthDAO {
     }
 
     @Override
-    public String createAuth(UserData data) {
+    public String createAuth(String username) {
         return "";
     }
-
 
     @Override
     public void deleteAuth(AuthData data) {
@@ -23,7 +22,12 @@ public class SQLAuthDAO implements AuthDAO {
     }
 
     @Override
-    public void getUser(AuthData data) {
-        // need implementations
+    public AuthData getAuth(AuthData data) {
+        return null;
+    }
+
+    @Override
+    public AuthData getAuth(String data) {
+        return null;
     }
 }

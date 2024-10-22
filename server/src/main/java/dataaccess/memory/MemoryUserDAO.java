@@ -21,9 +21,9 @@ public class MemoryUserDAO implements UserDAO {
     }
 
     @Override
-    public UserData getUser(UserData data) {
+    public UserData getUser(String username) {
         for (UserData u : user) {
-            if(u.username().equals(data.username())){
+            if(u.username().equals(username)){
                 return u;
             }
         }

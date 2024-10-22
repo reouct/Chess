@@ -1,19 +1,14 @@
 package handler;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.mysql.cj.xdevapi.JsonString;
+
 import dataaccess.DataAccessException;
 import model.AuthData;
 import model.ErrorMessages;
 import model.UserData;
-import service.JoinGameService;
 import service.RegisterService;
 import spark.Request;
 import spark.Response;
-
-import javax.xml.crypto.Data;
 
 public class RegisterHandler {
     private final RegisterService registerService;
@@ -37,10 +32,9 @@ public class RegisterHandler {
         ErrorMessages attempt = new ErrorMessages("Error: already taken");
         // Register New user
         try {
-            registerService.registerUser(newUser);
+            AuthData authData = registerService.registerUser(newUser);
             res.status(200);
-            String authToken = registerService.createAuthToken(newUser);
-            return new Gson().toJson(new AuthData(authToken, newUser.username()));
+            return new Gson().toJson(authData);
         } catch (DataAccessException e){
             String errorMessage = e.getMessage();
             if (errorMessage.equals("Error: already taken")) {
@@ -51,10 +45,6 @@ public class RegisterHandler {
             }
             return "Error";
         }
-//        registerService.registerUser(newUser);
-//        res.status(200);
-//        String authToken = registerService.createAuthToken(newUser);
-//        return new Gson().toJson(new AuthData(authToken, newUser.username()));
 
     }
 }
