@@ -7,15 +7,9 @@ import dataaccess.interfaces.UserDAO;
 import dataaccess.memory.MemoryAuthDao;
 import dataaccess.memory.MemoryGameDAO;
 import dataaccess.memory.MemoryUserDAO;
-import handler.ClearHandler;
+import handler.*;
 //import handler.RegisterHandler;
-import handler.LoginHandler;
-import handler.LogoutHandler;
-import handler.RegisterHandler;
-import service.ClearService;
-import service.LoginService;
-import service.LogoutService;
-import service.RegisterService;
+import service.*;
 import spark.*;
 
 public class Server {
@@ -26,6 +20,7 @@ public class Server {
     private final RegisterService registerService = new RegisterService(userDao, authDao);
     private final LoginService loginService = new LoginService(userDao,authDao);
     private final LogoutService logoutService = new LogoutService(authDao);
+    private final ListGamesService listGamesService = new ListGamesService(gameDao);
 
 
     public int run(int desiredPort) {
@@ -36,11 +31,13 @@ public class Server {
         RegisterHandler registerHandler = new RegisterHandler(registerService);
         LoginHandler loginHandler = new LoginHandler(loginService);
         LogoutHandler logoutHandler = new LogoutHandler(logoutService);
+        ListGameHandler listGameHandler = new ListGameHandler(listGamesService);
         // Register your endpoints and handle exceptions here.
         Spark.delete("/db", clearHandler::clearAllData);
         Spark.post("/user", registerHandler::registerUser);
         Spark.post("/session", loginHandler::loginUser);
         Spark.delete("/session", logoutHandler::logoutUser);
+        Spark.get("/game", listGameHandler::list);
         //This line initializes the server and can be removed once you have a functioning endpoint 
         //park.init();
 

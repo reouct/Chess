@@ -12,7 +12,7 @@ public interface GameDAO {
 
     public GameData getGame(GameData data);
 
-    public Set<GameData> listGames();
+    public Set<GameData> listGames() throws DataAccessException;
 
     public void updateGame(GameData data);
 }
