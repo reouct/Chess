@@ -19,7 +19,7 @@ public class SQLGameDAO implements GameDAO {
     }
 
     @Override
-    public GameData getGame(GameData data) {
+    public GameData getGame(int gameID) {
         return null;
     }
 

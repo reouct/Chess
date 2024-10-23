@@ -40,6 +40,7 @@ public class CreateGameHandler {
                 res.status(401);
                 return new Gson().toJson(attempt1);
             } else if (errorMessage.equals("Error: bad request")) {
+                res.status(400);
                 return new Gson().toJson(attempt2);
             } else {
                 res.status(500);
