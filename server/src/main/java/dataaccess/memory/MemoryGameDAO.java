@@ -4,8 +4,8 @@ import dataaccess.DataAccessException;
 import dataaccess.interfaces.GameDAO;
 import model.GameData;
 
-import javax.xml.crypto.Data;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class MemoryGameDAO implements GameDAO {
@@ -18,7 +18,14 @@ public class MemoryGameDAO implements GameDAO {
     }
 
     @Override
-    public void createGame(GameData data) {
+    public int createGame(GameData data) {
+        for (GameData currentGame : game){
+            if (Objects.equals(data.gameID(), currentGame.gameID())){
+                return 0;
+            }
+        }
+        game.add(data);
+        return data.gameID();
 
     }
 

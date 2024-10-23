@@ -13,8 +13,9 @@ public class SQLGameDAO implements GameDAO {
     }
 
     @Override
-    public void createGame(GameData data) {
+    public int createGame(GameData data) {
 
+        return 0;
     }
 
     @Override

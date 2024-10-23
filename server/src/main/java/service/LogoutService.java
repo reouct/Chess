@@ -14,10 +14,10 @@ public class LogoutService {
     }
 
 
-    public void logout(String authData) throws DataAccessException {
-        AuthData authdata = authDao.getAuth(authData);
+    public void logout(String authToken) throws DataAccessException {
+        AuthData authdata = authDao.getAuth(authToken);
 
-        if (authData == null || authdata == null || authdata.authToken() == null || !Objects.equals(authdata.authToken(), authData)){
+        if (authToken == null || authdata == null || authdata.authToken() == null || !Objects.equals(authdata.authToken(), authToken)){
             throw new DataAccessException("Error: unauthorized");
         }
 
