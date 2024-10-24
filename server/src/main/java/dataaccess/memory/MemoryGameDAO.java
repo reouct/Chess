@@ -54,9 +54,9 @@ public class MemoryGameDAO implements GameDAO {
         for (GameData g : game) {
             if (g.gameID().equals(data.gameID())){
                 game.remove(g);
-                game.add(data);
+                break;
             }
         }
-
+        game.add(data);
     }
 }

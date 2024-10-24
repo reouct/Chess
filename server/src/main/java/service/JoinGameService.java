@@ -1,6 +1,5 @@
 package service;
 
-import chess.ChessGame;
 import dataaccess.DataAccessException;
 import dataaccess.interfaces.AuthDAO;
 import dataaccess.interfaces.GameDAO;
@@ -22,33 +21,30 @@ public class JoinGameService {
     public void joinGame(String authToken, JoinData join) throws DataAccessException{
         AuthData authData = authDao.getAuth(authToken);
         GameData gameData = gameDao.getGame(join.gameID());
+
         if (authData == null || !Objects.equals(authData.authToken(), authToken)) {
             throw new DataAccessException("Error: unauthorized");
         }
 
-        if (gameData.gameID() != join.gameID()) {
+        if (gameData == null || gameData.gameID() != join.gameID() || join.playerColor() == null) {
             throw new DataAccessException("Error: bad request");
         }
 
         gameDao.getGame(join.gameID());
 
-        GameData newGame;
-        if (join.desiredColor().equalsIgnoreCase("White")) {
+        if (join.playerColor().equalsIgnoreCase("White")) {
             if (gameData.whiteUsername() == null) {
-                newGame = new GameData(gameData.gameID(),authData.username(), gameData.blackUsername(),gameData.gameName(),gameData.game());
+                gameDao.updateGame(new GameData(gameData.gameID(),authData.username(), gameData.blackUsername(),gameData.gameName(),gameData.game()));
             } else {
-                throw new DataAccessException("already taken");
+                throw new DataAccessException("Error: already taken");
             }
-        } else {
+        } else if (join.playerColor().equalsIgnoreCase("Black")){
             if (gameData.blackUsername() == null) {
-                newGame = new GameData(gameData.gameID(), gameData.blackUsername(), authData.username(), gameData.gameName(),gameData.game());
+                gameDao.updateGame(new GameData(gameData.gameID(), gameData.whiteUsername(), authData.username(), gameData.gameName(),gameData.game()));
             } else {
-                throw new DataAccessException("already taken");
+                throw new DataAccessException("Error: already taken");
             }
-
         }
-
-        gameDao.updateGame(newGame);
 
     }
 }
