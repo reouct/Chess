@@ -280,7 +280,12 @@ public class AddMoves {
         return moves;
     }
 
-    private static void pawnAddPromotion(ChessBoard board, ArrayList<ChessMove> moves, int myCurrentrow, int myCurrentcol, int[] rowOffsets, int[] colOffsets) {
+    private static void pawnAddPromotion(ChessBoard board,
+                                         ArrayList<ChessMove>moves,
+                                         int myCurrentrow,
+                                         int myCurrentcol,
+                                         int[] rowOffsets,
+                                         int[] colOffsets){
         for (int i = 0; i < rowOffsets.length; i++) {
             int newRow = myCurrentrow + rowOffsets[i];
             int newCol = myCurrentcol + colOffsets[i];
