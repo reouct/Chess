@@ -203,11 +203,16 @@ public class ChessGame {
             ChessPiece promoPiece = new ChessPiece(pieceInQuestion.getTeamColor(), move.getPromotionPiece());
             if (move.getPromotionPiece() != null) {
                 newBoard.addPiece(move.getEndPosition(), promoPiece);
-            } else newBoard.addPiece(move.getEndPosition(), pieceInQuestion);
+            } else {
+                newBoard.addPiece(move.getEndPosition(), pieceInQuestion);
+            }
             this.history.add(this.board);
             setBoard(newBoard);
-            if (this.turn == TeamColor.WHITE) setTeamTurn(TeamColor.BLACK);
-            else setTeamTurn(TeamColor.WHITE);
+            if (this.turn == TeamColor.WHITE) {
+                setTeamTurn(TeamColor.BLACK);
+            } else {
+                setTeamTurn(TeamColor.WHITE);
+            }
             updateStatus();
         }
     }
