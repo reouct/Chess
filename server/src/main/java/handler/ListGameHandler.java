@@ -27,7 +27,6 @@ public class ListGameHandler {
         try {
             Collection<GameData> gameData = listGamesService.listGame(authtoken);
             res.status(200);
-            res.type("application/json");
             return new Gson().toJson(Map.of("games", gameData));
         } catch (DataAccessException e) {
             String errorMessage = e.getMessage();

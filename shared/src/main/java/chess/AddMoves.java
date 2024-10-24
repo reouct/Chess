@@ -214,7 +214,7 @@ public class AddMoves {
         return moves;
     }
 
-    private static void pawnAddMove(ChessBoard board, ArrayList<ChessMove> moves, int myCurrentrow, int myCurrentcol, int[] rowOffsets, int[] colOffsets) {
+    private static void pawnAddMove(ChessBoard board,ArrayList<ChessMove> moves,int myCurrentrow,int myCurrentcol,int[] rowOffsets,int[] colOffsets){
         for (int i = 0; i < rowOffsets.length; i++) {
             int newRow = myCurrentrow + rowOffsets[i];
             int newCol = myCurrentcol + colOffsets[i];
@@ -258,16 +258,7 @@ public class AddMoves {
             int[] rowOffsets = {-1};
             int[] colOffsets = {-1};
 
-            for (int i = 0; i < rowOffsets.length; i++) {
-                int newRow = myCurrentrow + rowOffsets[i];
-                int newCol = myCurrentcol + colOffsets[i];
-                // get promoted if the next pawn move is at the baseline
-                if (myCurrentrow == 2 ) {
-                    addMove(moves, myCurrentrow,myCurrentcol,newRow,newCol,true);
-                } else {
-                    addValidMoveCollsions(moves, board, myCurrentrow, myCurrentcol, newRow, newCol);
-                }
-            }
+            pawnAddPromotion(board, moves, myCurrentrow, myCurrentcol, rowOffsets, colOffsets);
 
         }
 
@@ -280,21 +271,25 @@ public class AddMoves {
             int[] rowOffsets = {-1};
             int[] colOffsets = {1};
 
-            for (int i = 0; i < rowOffsets.length; i++) {
-                int newRow = myCurrentrow + rowOffsets[i];
-                int newCol = myCurrentcol + colOffsets[i];
-                // get promoted if the next pawn move is at the baseline
-                if (myCurrentrow == 2 ) {
-                    addMove(moves, myCurrentrow,myCurrentcol,newRow,newCol,true);
-                } else {
-                    addValidMoveCollsions(moves, board, myCurrentrow, myCurrentcol, newRow, newCol);
-                }
-            }
+            pawnAddPromotion(board, moves, myCurrentrow, myCurrentcol, rowOffsets, colOffsets);
 
         }
 
 
 
         return moves;
+    }
+
+    private static void pawnAddPromotion(ChessBoard board, ArrayList<ChessMove> moves, int myCurrentrow, int myCurrentcol, int[] rowOffsets, int[] colOffsets) {
+        for (int i = 0; i < rowOffsets.length; i++) {
+            int newRow = myCurrentrow + rowOffsets[i];
+            int newCol = myCurrentcol + colOffsets[i];
+            // get promoted if the next pawn move is at the baseline
+            if (myCurrentrow == 2 ) {
+                addMove(moves, myCurrentrow,myCurrentcol,newRow,newCol,true);
+            } else {
+                addValidMoveCollsions(moves, board, myCurrentrow, myCurrentcol, newRow, newCol);
+            }
+        }
     }
 }
