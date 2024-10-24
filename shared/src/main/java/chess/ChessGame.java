@@ -84,36 +84,15 @@ public class ChessGame {
         return true;
     }
 
-    private boolean isCheckmate() {
-        if (!isInCheck(turn)) {
-            return false;
-        }
-
-        for (int row = 1; row <= 8; row++) {
-            for (int col = 1; col <= 8; col++) {
-                ChessPosition position = new ChessPosition(row, col);
-                ChessPiece piece = board.getPiece(position);
-
-                if (piece != null && piece.getTeamColor() == turn) {
-                    if (!validMoves(position).isEmpty()) {
-                        return false;
-                    }
-                }
-            }
-        }
-
-        return true;
-    }
-
     private void updateStatus() {
         switch (turn) {
             case WHITE:
                 whiteSM = isStalemate();
-                whiteCM = isCheckmate();
+                whiteCM = isStalemate();
                 break;
             case BLACK:
                 blackSM = isStalemate();
-                blackCM = isCheckmate();
+                blackCM = isStalemate();
                 break;
         }
     }
