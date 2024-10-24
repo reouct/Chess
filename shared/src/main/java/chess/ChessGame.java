@@ -189,14 +189,21 @@ public class ChessGame {
      * @param move chess move to preform
      * @throws InvalidMoveException if move is invalid
      */
-    public void makeMove(ChessMove move) throws InvalidMoveException {
+    private boolean isValidMove(ChessMove move) throws InvalidMoveException {
         if (validMoves(move.getStartPosition()) == null) {
             throw new InvalidMoveException();
-        } else if (!validMoves(move.getStartPosition()).contains(move)) {
+        }
+        if (!validMoves(move.getStartPosition()).contains(move)) {
             throw new InvalidMoveException();
-        } else if (board.getPiece(move.getStartPosition()).getTeamColor() != turn) {
+        }
+        if (board.getPiece(move.getStartPosition()).getTeamColor() != turn) {
             throw new InvalidMoveException();
-        } else{
+        }
+        return true;
+    }
+
+    public void makeMove(ChessMove move) throws InvalidMoveException {
+        if (isValidMove(move)) {
             ChessBoard newBoard = this.board;
             ChessPiece pieceInQuestion = this.board.getPiece(move.getStartPosition());
             newBoard.removePiece(move.getStartPosition());
@@ -208,11 +215,7 @@ public class ChessGame {
             }
             this.history.add(this.board);
             setBoard(newBoard);
-            if (this.turn == TeamColor.WHITE) {
-                setTeamTurn(TeamColor.BLACK);
-            } else {
-                setTeamTurn(TeamColor.WHITE);
-            }
+            setTeamTurn(this.turn == TeamColor.WHITE ? TeamColor.BLACK : TeamColor.WHITE);
             updateStatus();
         }
     }
