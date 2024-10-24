@@ -231,27 +231,32 @@ public class ChessGame {
     }
 
     private boolean isInCheck(TeamColor teamColor, ChessBoard board) {
-
         for (int row = 1; row <= 8; ++row) {
             for (int col = 1; col <= 8; ++col) {
-                ChessPosition position = new ChessPosition(row,col);
+                ChessPosition position = new ChessPosition(row, col);
                 ChessPiece piece = board.getPiece(position);
-                if (piece != null) {
-                    if (piece.getTeamColor() != teamColor) {
-                        Collection<ChessMove> pieceMoves = piece.pieceMoves(board, position);
-                        for (ChessMove move : pieceMoves) {
-                            ChessPiece toCapture = board.getPiece(move.getEndPosition());
-                            if (toCapture != null) {
-                                if (toCapture.getPieceType() == ChessPiece.PieceType.KING) {
-                                    return true;
-                                }
-                            }
-                        }
+                if (isOpponentPiece(piece, teamColor)) {
+                    if (canCaptureKing(piece, board, position)) {
+                        return true;
                     }
                 }
             }
         }
+        return false;
+    }
 
+    private boolean isOpponentPiece(ChessPiece piece, TeamColor teamColor) {
+        return piece != null && piece.getTeamColor() != teamColor;
+    }
+
+    private boolean canCaptureKing(ChessPiece piece, ChessBoard board, ChessPosition position) {
+        Collection<ChessMove> pieceMoves = piece.pieceMoves(board, position);
+        for (ChessMove move : pieceMoves) {
+            ChessPiece toCapture = board.getPiece(move.getEndPosition());
+            if (toCapture != null && toCapture.getPieceType() == ChessPiece.PieceType.KING) {
+                return true;
+            }
+        }
         return false;
     }
 
