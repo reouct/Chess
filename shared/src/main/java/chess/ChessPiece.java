@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-import static chess.addMoves.addBlackPawnMoves;
-import static chess.addMoves.addWhitePawnMoves;
+import static chess.AddMoves.addBlackPawnMoves;
+import static chess.AddMoves.addWhitePawnMoves;
 
 /**
  * Represents a single chess piece
@@ -59,8 +59,8 @@ public class ChessPiece {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {return true;}
+        if (o == null || getClass() != o.getClass()) {return false;}
         ChessPiece piece = (ChessPiece) o;
         return pieceColor == piece.pieceColor && type == piece.type;
     }
@@ -82,19 +82,19 @@ public class ChessPiece {
 
         switch (type) {
             case BISHOP:
-                moves = addMoves.addBishopMoves(board, myPosition);
+                moves = AddMoves.addBishopMoves(board, myPosition);
                 break;
             case QUEEN:
-                moves = addMoves.addQueenMoves(board,myPosition);
+                moves = AddMoves.addQueenMoves(board,myPosition);
                 break;
             case ROOK:
-                moves = addMoves.addRookMoves(board, myPosition);
+                moves = AddMoves.addRookMoves(board, myPosition);
                 break;
             case KING:
-                moves = addMoves.addKingMoves(board, myPosition);
+                moves = AddMoves.addKingMoves(board, myPosition);
                 break;
             case KNIGHT:
-                moves = addMoves.addKnightMoves(board, myPosition);
+                moves = AddMoves.addKnightMoves(board, myPosition);
                 break;
             case PAWN:
                 if (this.getTeamColor() == ChessGame.TeamColor.WHITE){

@@ -25,7 +25,6 @@ public class MemoryAuthDao implements AuthDAO {
 
     @Override
     public void deleteAuth(AuthData data) {
-    // needs implement
         auth.remove(data);
     }
 
@@ -41,10 +40,6 @@ public class MemoryAuthDao implements AuthDAO {
 
     @Override
     public AuthData getAuth(String data) {
-//        for (AuthData a : auth){
-//            if(a.authToken().equals(data.authToken())){
-//                return a;
-//            }
         for (AuthData a : auth) {
             if(a.authToken().equals(data)){
                 return a;

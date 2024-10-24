@@ -26,10 +26,16 @@ public class ChessGame {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {return true;}
+        if (o == null || getClass() != o.getClass()) {return false;}
         ChessGame chessGame = (ChessGame) o;
-        return whiteCM == chessGame.whiteCM && blackCM == chessGame.blackCM && whiteSM == chessGame.whiteSM && blackSM == chessGame.blackSM && Objects.equals(board, chessGame.board) && Objects.equals(history, chessGame.history) && turn == chessGame.turn;
+        return Objects.equals(whiteCM, chessGame.whiteCM) &&
+                Objects.equals(blackCM, chessGame.blackCM) &&
+                Objects.equals(whiteSM, chessGame.whiteSM) &&
+                Objects.equals(blackSM, chessGame.blackSM) &&
+                Objects.equals(board, chessGame.board) &&
+                Objects.equals(history, chessGame.history) &&
+                turn == chessGame.turn;
     }
 
     @Override
@@ -190,7 +196,7 @@ public class ChessGame {
             throw new InvalidMoveException();
         } else if (board.getPiece(move.getStartPosition()).getTeamColor() != turn) {
             throw new InvalidMoveException();
-        } else {
+        } else{
             ChessBoard newBoard = this.board;
             ChessPiece pieceInQuestion = this.board.getPiece(move.getStartPosition());
             newBoard.removePiece(move.getStartPosition());

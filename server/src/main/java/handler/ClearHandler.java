@@ -12,11 +12,6 @@ public class ClearHandler {
         this.clearService = clearService;
     }
 
-//    private Object deleteAllPets(Request req, Response res) throws ResponseException {
-//        service.deleteAllPets();
-//        res.status(204);
-//        return "";
-//    }
     public Object clearAllData(Request req, Response res) throws DataAccessException {
         clearService.clear();
         res.status(200);

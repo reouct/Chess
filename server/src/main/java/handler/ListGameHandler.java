@@ -23,8 +23,6 @@ public class ListGameHandler {
     public Object list(Request req, Response res) throws DataAccessException {
         String authtoken = req.headers("authorization");
         ErrorMessages attempt = new ErrorMessages("Error: unauthorized");
-//        listGamesService.getAuth(authtoken);
-//        GameData gameData = listGamesService.getAllGames();
 
         try {
             Collection<GameData> gameData = listGamesService.listGame(authtoken);
@@ -41,10 +39,5 @@ public class ListGameHandler {
             }
         }
         return "Error";
-
-//        GameData gameData = listGamesService.listGame(authtoken);
-//        res.status(200);
-//        res.type("application/json");
-//        return new Gson().toJson(gameData);
     }
 }
