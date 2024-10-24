@@ -121,6 +121,14 @@ public class AddMoves {
         return moves;
     }
 
+    private static void addKingKnightMove(Collection<ChessMove> moves, ChessBoard board, int currentRow, int currentCol, int rowOffset, int colOffset) {
+        int newRow = currentRow + rowOffset;
+        int newCol = currentCol + colOffset;
+        if (newRow >= 1 && newRow <= 8 && newCol >= 1 && newCol <= 8) {
+            addValidMoveCollsions(moves, board, currentRow, currentCol, newRow, newCol);
+        }
+    }
+
     public static ArrayList<ChessMove> addKingMoves(ChessBoard board, ChessPosition myPosition) {
         ArrayList<ChessMove> moves = new ArrayList<>();
         int myCurrentrow = myPosition.getRow();
@@ -132,11 +140,7 @@ public class AddMoves {
         int[] colOffsets = {-1, 0, 1, -1, 1, -1, 0, 1};
 
         for (int i = 0; i < rowOffsets.length; i++) {
-            int newRow = myCurrentrow + rowOffsets[i];
-            int newCol = myCurrentcol + colOffsets[i];
-            if (newRow >= 1 && newRow <= 8 && newCol >= 1 && newCol <= 8) {
-                addValidMoveCollsions(moves, board, myCurrentrow, myCurrentcol, newRow, newCol);
-            }
+            addKingKnightMove(moves, board, myCurrentrow, myCurrentcol, rowOffsets[i], colOffsets[i]);
         }
         return moves;
     }
@@ -151,11 +155,7 @@ public class AddMoves {
         int[] colOffsets = {2, 1, -2, -1, 2, 1, -1, -2};
 
         for (int i = 0; i < rowOffsets.length; i++) {
-            int newRow = myCurrentrow + rowOffsets[i];
-            int newCol = myCurrentcol + colOffsets[i];
-            if (newRow >= 1 && newRow <= 8 && newCol >= 1 && newCol <= 8) {
-                addValidMoveCollsions(moves, board, myCurrentrow, myCurrentcol, newRow, newCol);
-            }
+            addKingKnightMove(moves, board, myCurrentrow, myCurrentcol, rowOffsets[i], colOffsets[i]);
         }
 
         return moves;
