@@ -9,4 +9,9 @@ class ListGamesServiceTest {
     @Test
     void listGame() {
     }
+
+    @Test
+    void badListGame() {
+
+    }
 }

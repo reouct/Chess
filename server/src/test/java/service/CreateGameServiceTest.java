@@ -9,4 +9,9 @@ class CreateGameServiceTest {
     @Test
     void createGame() {
     }
+
+    @Test
+    void badCreateGame() {
+
+    }
 }

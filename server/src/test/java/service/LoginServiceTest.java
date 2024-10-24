@@ -9,4 +9,9 @@ class LoginServiceTest {
     @Test
     void loginUser() {
     }
+
+    @Test
+    void badLoginUser() {
+
+    }
 }

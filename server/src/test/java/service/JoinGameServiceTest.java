@@ -9,4 +9,8 @@ class JoinGameServiceTest {
     @Test
     void joinGame() {
     }
+
+    @Test
+    void badJoinGame() {
+    }
 }

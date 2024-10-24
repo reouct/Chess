@@ -9,4 +9,9 @@ class RegisterServiceTest {
     @Test
     void registerUser() {
     }
+
+    @Test
+    void badRegisterUser() {
+
+    }
 }

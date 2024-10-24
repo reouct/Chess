@@ -9,4 +9,9 @@ class LogoutServiceTest {
     @Test
     void logout() {
     }
+
+    @Test
+    void badLogout() {
+
+    }
 }
