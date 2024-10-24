@@ -185,7 +185,11 @@ public class AddMoves {
         // White Pawn can capture left diagonally or right diagonally
 
         // White Pawn move right up diagonally
-        if (myCurrentrow +1 >=1 && myCurrentrow +1 <=8 && myCurrentcol +1 >= 1 && myCurrentcol +1 <=8 && (board.getPiece(new ChessPosition(myCurrentrow + 1, myCurrentcol + 1)) != null)){
+        if (myCurrentrow +1 >=1
+                && myCurrentrow +1 <=8
+                && myCurrentcol +1 >= 1
+                && myCurrentcol +1 <=8
+                && (board.getPiece(new ChessPosition(myCurrentrow + 1, myCurrentcol + 1)) != null)){
             int[] rowOffsets = {1};
             int[] colOffsets = {1};
 
@@ -204,7 +208,11 @@ public class AddMoves {
 
         // White pawn moves left up diagonally
 
-        if (myCurrentrow +1 >= 1 && myCurrentcol -1 <= 8 && myCurrentcol -1 >= 1 && myCurrentrow +1 <= 8 && (board.getPiece(new ChessPosition(myCurrentrow + 1, myCurrentcol - 1)) != null)){
+        if (myCurrentrow +1 >= 1
+                && myCurrentcol -1 <= 8
+                && myCurrentcol -1 >= 1
+                && myCurrentrow +1 <= 8
+                && (board.getPiece(new ChessPosition(myCurrentrow + 1, myCurrentcol - 1)) != null)){
             int[] rowOffsets = {1};
             int[] colOffsets = {-1};
 
@@ -247,7 +255,11 @@ public class AddMoves {
         // Black Pawn can capture left diagonally or right diagonally
 
         // Black Pawn move left down diagonally
-        if (myCurrentrow -1 >=1 && myCurrentrow -1 <=8 && myCurrentcol -1 >= 1 && myCurrentcol -1 <=8 &&(board.getPiece(new ChessPosition(myCurrentrow - 1, myCurrentcol - 1)) != null)){
+        if (myCurrentrow -1 >=1
+                && myCurrentrow -1 <=8
+                && myCurrentcol -1 >= 1
+                && myCurrentcol -1 <=8
+                &&(board.getPiece(new ChessPosition(myCurrentrow - 1, myCurrentcol - 1)) != null)){
             int[] rowOffsets = {-1};
             int[] colOffsets = {-1};
 
@@ -265,7 +277,11 @@ public class AddMoves {
         }
 
         // Black Pawn move right down diagonally
-        if (myCurrentrow -1 >=1 && myCurrentrow -1 <=8 && myCurrentcol +1 >= 1 && myCurrentcol +1 <=8 &&(board.getPiece(new ChessPosition(myCurrentrow - 1, myCurrentcol + 1)) != null)){
+        if (myCurrentrow -1 >=1
+                && myCurrentrow -1 <=8
+                && myCurrentcol +1 >= 1
+                && myCurrentcol +1 <=8
+                &&(board.getPiece(new ChessPosition(myCurrentrow - 1, myCurrentcol + 1)) != null)){
             int[] rowOffsets = {-1};
             int[] colOffsets = {1};
 

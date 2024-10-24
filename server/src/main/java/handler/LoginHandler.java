@@ -36,19 +36,6 @@ public class LoginHandler {
             }
         }
         return new Gson().toJson(attempt);
-
-        // Normal Login
-//        loginService.loginUser(user);
-//        res.status(200);
-//        String authToken = String.valueOf(loginService.getAuthToken(user));
-//        return new Gson().toJson(new AuthData(authToken, user.username()));
     }
 
-//    public String loginUser(Request req, Response res) throws DataAccessException {
-////        UsernameAndPassword usernameAndPassword = new Gson().fromJson(req.body(), UsernameAndPassword.class);
-////        String username = usernameAndPassword.username();
-////        String password = usernameAndPassword.password();
-//        //UserData storeDate = loginService.findDataByUnPw(username, password);
-//
-//    }
 }
