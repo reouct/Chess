@@ -27,8 +27,8 @@ public class LogoutHandler {
             logoutService.logout(authData);
             res.status(200);
             return"{}";
-        } catch (DataAccessException e) {
-            String errorMessage = e.getMessage();
+        } catch (DataAccessException h) {
+            String errorMessage = h.getMessage();
             if (errorMessage.equals("Error: unauthorized")) {
                 res.status(401);
                 return new Gson().toJson(attempt);

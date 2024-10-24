@@ -26,8 +26,8 @@ public class LoginHandler {
             res.status(200);
             AuthData authData = loginService.loginUser(usernameAndPassword);
             return new Gson().toJson(authData);
-        } catch (DataAccessException e){
-            String errorMessage = e.getMessage();
+        } catch (DataAccessException g){
+            String errorMessage = g.getMessage();
             if (errorMessage.equals("Error: unauthorized")) {
                 res.status(401);
                 return new Gson().toJson(attempt);
