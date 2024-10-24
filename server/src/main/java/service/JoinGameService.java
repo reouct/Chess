@@ -40,7 +40,7 @@ public class JoinGameService {
             }
         } else if (join.playerColor().equalsIgnoreCase("Black")){
             if (gameData.blackUsername() == null) {
-                gameDao.updateGame(new GameData(gameData.gameID(), gameData.whiteUsername(), authData.username(), gameData.gameName(),gameData.game()));
+                gameDao.updateGame(new GameData(gameData.gameID(),gameData.whiteUsername(),authData.username(),gameData.gameName(),gameData.game()));
             } else {
                 throw new DataAccessException("Error: already taken");
             }
