@@ -7,15 +7,21 @@ import dataaccess.interfaces.UserDAO;
 import dataaccess.memory.MemoryAuthDao;
 import dataaccess.memory.MemoryGameDAO;
 import dataaccess.memory.MemoryUserDAO;
+import dataaccess.sql.SQLAuthDAO;
+import dataaccess.sql.SQLGameDAO;
+import dataaccess.sql.SQLUserDAO;
 import handler.*;
 //import handler.RegisterHandler;
 import service.*;
 import spark.*;
 
 public class Server {
-    private final UserDAO userDao = new MemoryUserDAO();
-    private final GameDAO gameDao = new MemoryGameDAO();
-    private final AuthDAO authDao = new MemoryAuthDao();
+//    private final UserDAO userDao = new MemoryUserDAO();
+//    private final GameDAO gameDao = new MemoryGameDAO();
+//    private final AuthDAO authDao = new MemoryAuthDao();
+    private final SQLUserDAO userDao = new SQLUserDAO();
+    private final SQLGameDAO gameDao = new SQLGameDAO();
+    private final SQLAuthDAO authDao = new SQLAuthDAO();
     private final ClearService clearService = new ClearService(userDao,gameDao,authDao);
     private final RegisterService registerService = new RegisterService(userDao, authDao);
     private final LoginService loginService = new LoginService(userDao,authDao);
