@@ -24,8 +24,16 @@ public class SQLAuthDAO implements AuthDAO {
     }
 
     @Override
-    public void clear() {
-        // need implementations
+    public void clear() throws DataAccessException {
+        try (var conn = DatabaseManager.getConnection()) {
+            try (var preparedStatement = conn.prepareStatement("DELETE FROM auth WHERE TRUE")) {
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -34,8 +42,17 @@ public class SQLAuthDAO implements AuthDAO {
     }
 
     @Override
-    public void deleteAuth(AuthData data) {
+    public void deleteAuth(AuthData data) throws DataAccessException {
         // need implementations
+        try (var conn = DatabaseManager.getConnection()) {
+            try (var prepardStatement = conn.prepareStatement("DELETE FROM auth WHERE authtoken=? ")) {
+                prepardStatement.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -48,13 +65,23 @@ public class SQLAuthDAO implements AuthDAO {
         return null;
     }
 
+//    private final String[] createStatements = {
+//            """
+//            CREATE TABLE IF NOT EXISTS  auth (
+//              `authToken` varchar(256) NOT NULL,
+//              `username` varchar(256) NOT NULL,
+//              PRIMARY KEY (authToken)
+//            )
+//            """
+//    };
+
     private final String[] createStatements = {
             """
             CREATE TABLE IF NOT EXISTS  auth (
               `id` int NOT NULL AUTO_INCREMENT,
-              `authtoken` varchar(256) NOT NULL,
+              `authToken` varchar(256) NOT NULL,
               `username` varchar(256) NOT NULL,
-              PRIMARY KEY (`id`)
+              PRIMARY KEY (authToken)
             )
             """
     };

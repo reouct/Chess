@@ -9,7 +9,7 @@ public interface AuthDAO {
 
     public String createAuth(String username);
 
-    public void deleteAuth(AuthData data);
+    public void deleteAuth(AuthData data) throws DataAccessException;
 
     public AuthData getAuth(AuthData data);
 
