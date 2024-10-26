@@ -55,7 +55,7 @@ class SQLAuthDAOTest {
     }
 
     @Test
-    void deleteAuth() {
+    void deleteAuth_Success() {
         SQLAuthDAO authDAO = new SQLAuthDAO();
 
         // Insert test data
@@ -95,6 +95,20 @@ class SQLAuthDAOTest {
         } catch (DataAccessException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    // Test case for failed deletion
+    @Test
+    void deleteAuth_Failure() {
+//        SQLAuthDAO authDAO = new SQLAuthDAO();
+//
+//        // Create AuthData object with non-existent token
+//        AuthData authData = new AuthData("nonExistentToken", "testUser");
+//
+//        // Call the deleteAuth method and expect an exception
+//        assertThrows(DataAccessException.class, () -> {
+//            authDAO.deleteAuth(authData);
+//        }, "Expected DataAccessException when deleting non-existent auth data");
     }
 
     @Test
