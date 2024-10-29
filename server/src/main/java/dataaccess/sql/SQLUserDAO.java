@@ -5,6 +5,8 @@ import dataaccess.DatabaseManager;
 import dataaccess.interfaces.UserDAO;
 import model.UserData;
 
+import javax.xml.crypto.Data;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SQLUserDAO implements UserDAO {
@@ -29,7 +31,25 @@ public class SQLUserDAO implements UserDAO {
 
     @Override
     public UserData getUser(String username) {
-        return null;
+        String sql = "SELECT * FROM user WHERE username=?";
+        try (var conn = DatabaseManager.getConnection()) {
+            try (var preparedStatement = conn.prepareStatement(sql)) {
+                preparedStatement.setString(1,username);
+
+                ResultSet rs = preparedStatement.executeQuery();
+                if (rs.next()) {
+                    String password = rs.getString("password");
+                    String email = rs.getString("email");
+                    return new UserData(username, password, email);
+                }
+                else {
+                    return null;
+                }
+            }
+        } catch(Exception e) {
+            System.out.println(e.toString());
+            return null;
+        }
     }
 
     private final String[] createStatements = {
