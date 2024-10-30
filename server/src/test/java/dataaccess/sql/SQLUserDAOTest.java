@@ -52,6 +52,10 @@ class SQLUserDAOTest {
     }
 
     @Test
+    void badCreateUser() {
+    }
+
+    @Test
     void getUser() throws SQLException, DataAccessException {
         String username = "testUser";
         String password = "testPass";
@@ -75,5 +79,9 @@ class SQLUserDAOTest {
         assertEquals(username, user.username());
         assertEquals(password, user.password());
         assertEquals(email, user.email());
+    }
+
+    @Test
+    void badGetUser() {
     }
 }
