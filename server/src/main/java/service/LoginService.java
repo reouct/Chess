@@ -6,6 +6,7 @@ import dataaccess.interfaces.UserDAO;
 import model.AuthData;
 import model.UserData;
 import model.UsernameAndPassword;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.Objects;
 
@@ -22,7 +23,7 @@ public class LoginService {
     public AuthData loginUser(UsernameAndPassword usernameAndPassword) throws DataAccessException{
         UserData userdata = userDao.getUser(usernameAndPassword.username());
 
-        if (userdata == null || !Objects.equals(userdata.password(), usernameAndPassword.password())){
+        if (userdata == null || !BCrypt.checkpw(usernameAndPassword.password(), userdata.password())){
             throw new DataAccessException("Error: unauthorized");
         }
         String authtoken = authDao.createAuth(usernameAndPassword.username());
