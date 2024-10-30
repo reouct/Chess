@@ -30,7 +30,25 @@ class SQLUserDAOTest {
     }
 
     @Test
-    void createUser() {
+    void createUser() throws SQLException, DataAccessException {
+        String username = "testUser";
+        String password = "testPass";
+        String email = "test@example.com";
+
+        // Create test user data
+        UserData userData = new UserData(username, password, email);
+
+        // Call the createUser method
+        userDAO.createUser(userData);
+
+        // Retrieve user from the database
+        UserData retrievedUser = userDAO.getUser(username);
+
+        // Verify user data
+        assertNotNull(retrievedUser);
+        assertEquals(username, retrievedUser.username());
+        assertEquals(password, retrievedUser.password());
+        assertEquals(email, retrievedUser.email());
     }
 
     @Test

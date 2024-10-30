@@ -28,7 +28,16 @@ public class SQLGameDAO implements GameDAO {
     }
 
     @Override
-    public void clear() {
+    public void clear() throws DataAccessException {
+        try (var conn = DatabaseManager.getConnection()) {
+            try (var preparedStatement = conn.prepareStatement("DELETE FROM auth WHERE TRUE")) {
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

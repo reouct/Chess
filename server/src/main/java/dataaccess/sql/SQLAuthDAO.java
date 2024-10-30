@@ -56,11 +56,6 @@ public class SQLAuthDAO implements AuthDAO {
     }
 
     @Override
-    public AuthData getAuth(AuthData data) {
-        return null;
-    }
-
-    @Override
     public AuthData getAuth(String data) {
         return null;
     }

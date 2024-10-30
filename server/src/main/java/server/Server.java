@@ -1,5 +1,11 @@
 package server;
 
+import dataaccess.interfaces.AuthDAO;
+import dataaccess.interfaces.GameDAO;
+import dataaccess.interfaces.UserDAO;
+import dataaccess.memory.MemoryAuthDao;
+import dataaccess.memory.MemoryGameDAO;
+import dataaccess.memory.MemoryUserDAO;
 import dataaccess.sql.SQLAuthDAO;
 import dataaccess.sql.SQLGameDAO;
 import dataaccess.sql.SQLUserDAO;

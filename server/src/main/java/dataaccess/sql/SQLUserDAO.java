@@ -20,13 +20,32 @@ public class SQLUserDAO implements UserDAO {
     }
 
     @Override
-    public void clear() {
-
+    public void clear() throws DataAccessException {
+        try (var conn = DatabaseManager.getConnection()) {
+            try (var preparedStatement = conn.prepareStatement("DELETE FROM auth WHERE TRUE")) {
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void createUser(UserData data) {
         // need implementation
+        String sql = "INSERT INTO user (username, password, email) VALUES (?, ?, ?)";
+        try (var conn = DatabaseManager.getConnection()) {
+            try (var preparedStatement = conn.prepareStatement(sql)){
+                preparedStatement.setString(1, data.username());
+                preparedStatement.setString(2, data.password());
+                preparedStatement.setString(3, data.email());
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException | DataAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -47,7 +66,6 @@ public class SQLUserDAO implements UserDAO {
                 }
             }
         } catch(Exception e) {
-            System.out.println(e.toString());
             return null;
         }
     }
