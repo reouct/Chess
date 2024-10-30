@@ -1,5 +1,6 @@
 package dataaccess.sql;
 
+import com.google.gson.Gson;
 import dataaccess.DataAccessException;
 import dataaccess.DatabaseManager;
 import dataaccess.interfaces.GameDAO;
@@ -42,8 +43,22 @@ public class SQLGameDAO implements GameDAO {
 
     @Override
     public int createGame(GameData data) {
-
-        return 0;
+        String sql = "INSERT INTO game (gameID, whiteUsername, blackUsername, gameName, game) VALUES (?, ?, ?, ?, ?)";
+        try (var conn = DatabaseManager.getConnection()) {
+            try (var preparedStatement = conn.prepareStatement(sql)) {
+                preparedStatement.setInt(1,data.gameID());
+                preparedStatement.setString(2, data.whiteUsername());
+                preparedStatement.setString(3, data.blackUsername());
+                preparedStatement.setString(4, data.gameName());
+                preparedStatement.setString(5, new Gson().toJson(data.game()));
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException | DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+        return data.gameID();
     }
 
     @Override

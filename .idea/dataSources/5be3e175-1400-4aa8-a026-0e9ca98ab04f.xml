@@ -20,7 +20,7 @@
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="6" parent="1" name="chess">
-      <LastIntrospectionLocalTimestamp>2024-10-30.17:55:55</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-10-30.20:34:15</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <table id="7" parent="6" name="auth">
@@ -35,7 +35,7 @@
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <column id="10" parent="7" name="authtoken">
+    <column id="10" parent="7" name="authToken">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>varchar(256)|0s</StoredType>
@@ -45,58 +45,68 @@
       <Position>2</Position>
       <StoredType>varchar(256)|0s</StoredType>
     </column>
-    <column id="12" parent="8" name="gameID">
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-      <StoredType>int|0s</StoredType>
-    </column>
-    <column id="13" parent="8" name="whiteUsername">
-      <Position>2</Position>
-      <StoredType>varchar(256)|0s</StoredType>
-    </column>
-    <column id="14" parent="8" name="blackUsername">
-      <Position>3</Position>
-      <StoredType>varchar(256)|0s</StoredType>
-    </column>
-    <column id="15" parent="8" name="gameName">
-      <Position>4</Position>
-      <StoredType>varchar(256)|0s</StoredType>
-    </column>
-    <column id="16" parent="8" name="game">
-      <Position>5</Position>
-      <StoredType>varchar(2048)|0s</StoredType>
-    </column>
-    <index id="17" parent="8" name="PRIMARY">
-      <ColNames>gameID</ColNames>
+    <index id="12" parent="7" name="PRIMARY">
+      <ColNames>authToken</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="18" parent="8" name="PRIMARY">
+    <key id="13" parent="7" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="19" parent="9" name="username">
+    <column id="14" parent="8" name="gameID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="15" parent="8" name="whiteUsername">
+      <Position>2</Position>
+      <StoredType>varchar(256)|0s</StoredType>
+    </column>
+    <column id="16" parent="8" name="blackUsername">
+      <Position>3</Position>
+      <StoredType>varchar(256)|0s</StoredType>
+    </column>
+    <column id="17" parent="8" name="gameName">
+      <Position>4</Position>
+      <StoredType>varchar(256)|0s</StoredType>
+    </column>
+    <column id="18" parent="8" name="game">
+      <Position>5</Position>
+      <StoredType>varchar(2048)|0s</StoredType>
+    </column>
+    <index id="19" parent="8" name="PRIMARY">
+      <ColNames>gameID</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="20" parent="8" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <column id="21" parent="9" name="username">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>varchar(256)|0s</StoredType>
     </column>
-    <column id="20" parent="9" name="password">
+    <column id="22" parent="9" name="password">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>varchar(256)|0s</StoredType>
     </column>
-    <column id="21" parent="9" name="email">
+    <column id="23" parent="9" name="email">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>varchar(256)|0s</StoredType>
     </column>
-    <index id="22" parent="9" name="PRIMARY">
+    <index id="24" parent="9" name="PRIMARY">
       <ColNames>username</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="23" parent="9" name="PRIMARY">
+    <key id="25" parent="9" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>

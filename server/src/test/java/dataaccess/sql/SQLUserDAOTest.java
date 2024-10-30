@@ -25,6 +25,7 @@ class SQLUserDAOTest {
             }
         }
     }
+
     @Test
     void clear() {
     }
