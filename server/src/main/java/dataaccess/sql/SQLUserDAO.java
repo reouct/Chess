@@ -22,7 +22,7 @@ public class SQLUserDAO implements UserDAO {
     @Override
     public void clear() throws DataAccessException {
         try (var conn = DatabaseManager.getConnection()) {
-            try (var preparedStatement = conn.prepareStatement("DELETE FROM auth WHERE TRUE")) {
+            try (var preparedStatement = conn.prepareStatement("TRUNCATE user ")) {
                 preparedStatement.executeUpdate();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -34,7 +34,6 @@ public class SQLUserDAO implements UserDAO {
 
     @Override
     public void createUser(UserData data) {
-        // need implementation
         String sql = "INSERT INTO user (username, password, email) VALUES (?, ?, ?)";
         try (var conn = DatabaseManager.getConnection()) {
             try (var preparedStatement = conn.prepareStatement(sql)){

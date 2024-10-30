@@ -113,6 +113,26 @@ class SQLAuthDAOTest {
 
     @Test
     void getAuth() {
+        SQLAuthDAO authDAO = new SQLAuthDAO();
+
+        // Insert test data
+        try (var conn = DatabaseManager.getConnection()) {
+            try (var preparedStatement = conn.prepareStatement("INSERT INTO auth (authToken, username) VALUES (?, ?)")) {
+                preparedStatement.setString(1, "testToken");
+                preparedStatement.setString(2, "testUser");
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException | DataAccessException e) {
+            fail("Failed to insert test data: " + e.getMessage());
+        }
+
+        // Call the getAuth method
+        AuthData authData = authDAO.getAuth("testToken");
+
+        // Verify the returned AuthData
+        assertNotNull(authData, "AuthData should not be null");
+        assertEquals("testToken", authData.authToken(), "Auth token should match");
+        assertEquals("testUser", authData.username(), "Username should match");
     }
 
     @Test

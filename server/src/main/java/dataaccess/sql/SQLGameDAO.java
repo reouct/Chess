@@ -30,7 +30,7 @@ public class SQLGameDAO implements GameDAO {
     @Override
     public void clear() throws DataAccessException {
         try (var conn = DatabaseManager.getConnection()) {
-            try (var preparedStatement = conn.prepareStatement("DELETE FROM auth WHERE TRUE")) {
+            try (var preparedStatement = conn.prepareStatement("TRUNCATE game")) {
                 preparedStatement.executeUpdate();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
