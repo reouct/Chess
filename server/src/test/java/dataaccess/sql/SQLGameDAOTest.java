@@ -16,11 +16,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SQLGameDAOTest {
 
-    private SQLGameDAO gameDAO;
-
     @BeforeEach
     void setUp() throws SQLException, DataAccessException {
-        gameDAO = new SQLGameDAO();
+        SQLGameDAO gameDAO = new SQLGameDAO();
         try (Connection conn = DatabaseManager.getConnection()) {
             try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM game")) {
                 stmt.executeUpdate();
@@ -64,10 +62,22 @@ class SQLGameDAOTest {
     }
 
     @Test
+    void badGetGame() {
+    }
+
+    @Test
     void listGames() {
     }
 
     @Test
+    void badListGames() {
+    }
+
+    @Test
     void updateGame() {
+    }
+
+    @Test
+    void badUpdateGame() {
     }
 }
