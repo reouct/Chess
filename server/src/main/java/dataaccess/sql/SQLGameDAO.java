@@ -135,16 +135,6 @@ public class SQLGameDAO implements GameDAO {
     };
 
     private void configureGameDatabase() throws DataAccessException {
-        DatabaseManager.createDatabase();
-        try (var conn = DatabaseManager.getConnection()) {
-            for (var statement : createStatements) {
-                try (var preparedStatement = conn.prepareStatement(statement)){
-                    preparedStatement.executeUpdate();
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
+        DatabaseConfigurator.configureDatabase(createStatements);
     }
 }
