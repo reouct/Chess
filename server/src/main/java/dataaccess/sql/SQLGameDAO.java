@@ -7,7 +7,6 @@ import dataaccess.DatabaseManager;
 import dataaccess.interfaces.GameDAO;
 import model.GameData;
 
-import javax.xml.crypto.Data;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
@@ -17,7 +16,7 @@ public class SQLGameDAO implements GameDAO {
 
     public SQLGameDAO(){
         try {
-            configureDatabase();
+            configureGameDatabase();
         } catch (DataAccessException e) {
             throw new RuntimeException(e);
         }
@@ -135,7 +134,7 @@ public class SQLGameDAO implements GameDAO {
             """
     };
 
-    private void configureDatabase() throws DataAccessException {
+    private void configureGameDatabase() throws DataAccessException {
         DatabaseManager.createDatabase();
         try (var conn = DatabaseManager.getConnection()) {
             for (var statement : createStatements) {

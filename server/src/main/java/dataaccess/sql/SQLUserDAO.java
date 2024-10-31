@@ -5,7 +5,6 @@ import dataaccess.DatabaseManager;
 import dataaccess.interfaces.UserDAO;
 import model.UserData;
 
-import javax.xml.crypto.Data;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -13,7 +12,7 @@ public class SQLUserDAO implements UserDAO {
 
     public SQLUserDAO() {
         try {
-            configureDatabase();
+            configureUserDatabase();
         } catch (DataAccessException e) {
             throw new RuntimeException(e);
         }
@@ -80,7 +79,7 @@ public class SQLUserDAO implements UserDAO {
             """
     };
 
-    private void configureDatabase() throws DataAccessException {
+    private void configureUserDatabase() throws DataAccessException {
         DatabaseManager.createDatabase();
         try (var conn = DatabaseManager.getConnection()) {
             for (var statement : createStatements) {
