@@ -15,14 +15,6 @@ import java.util.Set;
 
 public class SQLGameDAO implements GameDAO {
 
-//    private void MySqlDataAccess() throws DataAccessException{
-//        configureDatabase(createStatements);
-//    }
-//
-//    private SQLGameDAO() throws DataAccessException {
-//        MySqlDataAccess();
-//    }
-
     public SQLGameDAO(){
         try {
             configureDatabase();

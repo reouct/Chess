@@ -37,12 +37,12 @@ class SQLAuthDAOTest {
     }
 
     @Test
-    void deleteAuth_Success() {
+    void deleteAuth() {
     }
 
     // Test case for failed deletion
     @Test
-    void deleteAuth_Failure() {
+    void badDeleteAuth() {
     }
 
     @Test

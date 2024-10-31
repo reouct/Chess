@@ -15,9 +15,6 @@ import service.*;
 import spark.*;
 
 public class Server {
-//    private final UserDAO userDao = new MemoryUserDAO();
-//    private final GameDAO gameDao = new MemoryGameDAO();
-//    private final AuthDAO authDao = new MemoryAuthDao();
     private final SQLUserDAO userDao = new SQLUserDAO();
     private final SQLGameDAO gameDao = new SQLGameDAO();
     private final SQLAuthDAO authDao = new SQLAuthDAO();
