@@ -49,12 +49,9 @@ public class ServerFacadeTests {
     @Test
     public void clearTest() {
         serverFacade.clear();
-        serverFacade.clear();
 
         Result result = serverFacade.clear();
 
-        Assertions.assertTrue(result.isSuccess());
-
-
+        Assertions.assertNull(result.message());
     }
 }

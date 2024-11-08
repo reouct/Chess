@@ -74,11 +74,10 @@ public class ServerFacade {
 
     public Result clear() {
         try {
-            makeRequest("DELETE", urlString + "/db", null, null, Result.class);
+            return makeRequest("DELETE", urlString + "/db", null, null, Result.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return null;
     }
 
     public AuthResult register(RegisterRequest registerRequest) {
