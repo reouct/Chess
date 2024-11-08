@@ -54,4 +54,14 @@ public class ServerFacadeTests {
 
         Assertions.assertNull(result.message());
     }
+
+    @Test
+    public void registerTest() {
+        AuthResult result = serverFacade.register(registerRequest);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertTrue(result.isSuccess());
+        Assertions.assertNotNull(result.getAuthToken());
+        Assertions.assertEquals("testUser", result.getUsername());
+    }
 }
