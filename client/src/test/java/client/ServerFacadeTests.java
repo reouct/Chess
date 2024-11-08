@@ -56,12 +56,28 @@ public class ServerFacadeTests {
     }
 
     @Test
-    public void registerTest() {
-        AuthResult result = serverFacade.register(registerRequest);
+    public void registerTestPositive() {
+        AuthResult authResult = serverFacade.register(registerRequest);
+        Assertions.assertNull(authResult.message());
+    }
 
-        Assertions.assertNotNull(result);
-        Assertions.assertTrue(result.isSuccess());
-        Assertions.assertNotNull(result.getAuthToken());
-        Assertions.assertEquals("testUser", result.getUsername());
+    @Test
+    public void registerTestNegative() {
+        AuthResult authResult = serverFacade.register(new RegisterRequest(null, null, null));
+        Assertions.assertNotNull(authResult.message());
+    }
+
+    @Test
+    public void loginTestPositive() {
+        serverFacade.register(registerRequest);
+
+        AuthResult authResult = serverFacade.login(loginRequest);
+        Assertions.assertNull(authResult.message());
+    }
+
+    @Test
+    public void loginTestNegative() {
+        AuthResult authResult = serverFacade.login(loginRequest);
+        Assertions.assertNotNull(authResult.message());
     }
 }
