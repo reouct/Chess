@@ -24,6 +24,10 @@ public class ServerFacade {
         this.urlString = "http://localhost:" + port;
     }
 
+    public String getAuthToken() {
+        return authToken;
+    }
+
     private boolean doesOutput(String type) {
         return type.equals("POST") || type.equals("PUT");
     }
