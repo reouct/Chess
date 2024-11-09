@@ -18,11 +18,13 @@ public class ChessClient {
     }
 
     public void run() {
-        if (serverFacade.getAuthToken() == null ) {
-            preLogin();
-        }
-        else {
-            postLogin();
+        while (true) {
+            if (serverFacade.getAuthToken() == null) {
+                preLogin();
+            } else {
+                postLogin();
+                break; // Exit early if authenticated on the first check
+            }
         }
     }
 
@@ -36,7 +38,7 @@ public class ChessClient {
             isVaild = true;
             switch (cmd) {
                 case "quit" -> System.exit(0);
-                case "help" -> help();
+                case "help" -> preLoginHelp();
                 default -> {
                     isVaild = false;
                     System.out.println("Wrong command");
@@ -47,7 +49,7 @@ public class ChessClient {
 
     }
 
-    private void help() {
+    private void preLoginHelp() {
         System.out.println("\nHere are some commands you can use.");
         boolean isVaild = false;
         while (!isVaild) {
@@ -62,7 +64,7 @@ public class ChessClient {
                 case "login" -> login();
                 case "register" -> register();
                 case "quit" -> System.exit(0);
-                case "help" -> help();
+                case "help" -> preLoginHelp();
                 default -> {
                     isVaild = false;
                     System.out.println("Wrong command");
@@ -91,7 +93,7 @@ public class ChessClient {
         else {
             serverFacade.setAuthToken(result.authToken());
             serverFacade.setUsername(result.username());
-            System.out.println(" You are logged in as: " + serverFacade.getUsername());
+            System.out.println("You are logged in as: " + serverFacade.getUsername());
         }
 
     }
@@ -118,13 +120,66 @@ public class ChessClient {
         else {
             serverFacade.setAuthToken(authResult.authToken());
             serverFacade.setUsername(authResult.username());
-            System.out.println("\n Account created, you are now logged in as: " + serverFacade.getUsername());
+            System.out.println("\nAccount created, you are now logged in as: " + serverFacade.getUsername());
         }
     }
 
 
     private void postLogin() {
-        // not implemented
+        System.out.print("Enter one of the following commands to continue.");
+        System.out.print("\n Type Create Game to create a game");
+        System.out.print("\n Type List Game to list a game");
+        System.out.print("\n Type Join Game to join a game");
+        System.out.print("\n Type Join Observer to join as an observer");
+        System.out.print("\n Type Logout to logout");
+        System.out.print("\n Type Help for some possible command");
+
+        boolean valid = false;
+        while (!valid) {
+            System.out.print("\nCommand: ");
+            String cmd = scanner.nextLine().toLowerCase().trim();
+            valid = true;
+            switch (cmd) {
+                case "list games" -> listGames();
+                case "create game" -> createGame();
+                case "join game" -> joinGame();
+                case "join observer" -> joinObserver();
+                case "logout" -> logout();
+                case "help" -> {
+                    System.out.println("Type one of the commands (as listed after the colon), then hit Enter.");
+                    postLoginHelp();
+                }
+                default -> {
+                    valid = false;
+                    System.out.println("Unrecognized command, try again.");
+                }
+            }
+        }
+    }
+
+    private void postLoginHelp() {
+        System.out.println("need implements");
+    }
+
+    private void logout() {
+        System.out.println("need implements");
+    }
+
+    private void joinObserver() {
+        System.out.println("need implements");
+
+    }
+
+    private void joinGame() {
+        System.out.println("need implements");
+    }
+
+    private void createGame() {
+        System.out.println("need implements");
+    }
+
+    private void listGames() {
+        System.out.println("need implements");
     }
 
 }
