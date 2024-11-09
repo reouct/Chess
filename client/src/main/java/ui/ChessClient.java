@@ -1,17 +1,22 @@
 package ui;
 
-import request.LoginRequest;
-import request.LogoutRequest;
-import request.RegisterRequest;
+import model.GameData;
+import request.*;
 import result.AuthResult;
+import result.GameListResult;
+import result.GameResult;
 import result.Result;
 import server.ServerFacade;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 public class ChessClient {
     private final ServerFacade serverFacade;
     private final Scanner scanner;
+    private Map<Integer,Integer> gameList;
 
     public ChessClient(int port) {
         serverFacade = new ServerFacade(port);
@@ -212,11 +217,48 @@ public class ChessClient {
     }
 
     private void createGame() {
-        System.out.println("need implements");
+        System.out.print("Enter a game name");
+        String gameName = scanner.nextLine();
+
+        CreateGameRequest createGameRequest = new CreateGameRequest(gameName, serverFacade.getAuthToken());
+        GameResult result = serverFacade.createGame(createGameRequest);
+
+        if(result.message() != null) {
+            System.out.println("\n" + result.message());
+        }
+        else {
+            System.out.println("You successfully created a game with game name: " + result.gameName() );
+        }
+
     }
 
     private void listGames() {
-        System.out.println("need implements");
+        ListGameRequest listGameRequest = new ListGameRequest(serverFacade.getAuthToken());
+        GameListResult result = serverFacade.listGames(listGameRequest);
+        Set<GameData> gameDataSet = result.gameDataSet();
+
+        if (result.message() != null) {
+            System.out.println("\n" + result.message());
+        }
+
+        if (gameDataSet.isEmpty()) {
+            System.out.println("No games! Create one to play!");
+        }
+
+        System.out.println("\t#\tName\tWhite\tBlack");
+
+        gameList = new HashMap<>();
+        int count = 0;
+
+        for (GameData game : gameDataSet) {
+            ++count;
+            gameList.put(count, game.gameID());
+
+            String whiteUsername = (game.whiteUsername() != null) ? game.whiteUsername() : "-----";
+            String blackUsername = (game.blackUsername() != null) ? game.blackUsername() : "-----";
+
+            System.out.println("\t" + count + "\t" + game.gameName() + "\t" + whiteUsername + "\t" + blackUsername);
+        }
     }
 
 }

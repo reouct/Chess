@@ -1,11 +1,11 @@
 package client;
 
 import passoff.model.TestResult;
-import request.LoginRequest;
-import request.LogoutRequest;
-import request.RegisterRequest;
+import request.*;
 import org.junit.jupiter.api.*;
 import result.AuthResult;
+import result.GameListResult;
+import result.GameResult;
 import result.Result;
 import server.Server;
 import server.ServerFacade;
@@ -99,5 +99,48 @@ public class ServerFacadeTests {
         LogoutRequest logoutRequest = new LogoutRequest("notAuthToken");
         AuthResult result = serverFacade.logout(logoutRequest);
         Assertions.assertNotNull(result.message());
+    }
+
+    @Test
+    public void createGameTestPositive() {
+        AuthResult authResult = serverFacade.register(registerRequest);
+        String authToken = authResult.authToken();
+
+        CreateGameRequest createGameRequest = new CreateGameRequest("name", authToken);
+        GameResult gameResult = serverFacade.createGame(createGameRequest);
+        Assertions.assertNull(gameResult.message());
+    }
+
+    @Test
+    public void createGameTestNegative() {
+        serverFacade.register(registerRequest);
+
+        CreateGameRequest createGameRequest = new CreateGameRequest("name", "notAuthToken");
+        GameResult gameResult = serverFacade.createGame(createGameRequest);
+        Assertions.assertNotNull(gameResult.message());
+    }
+
+    @Test
+    public void listGamesTestPositive() {
+        AuthResult authResult = serverFacade.register(registerRequest);
+        String authToken = authResult.authToken();
+
+        CreateGameRequest createGameRequest = new CreateGameRequest("name", authToken);
+        serverFacade.createGame(createGameRequest);
+        ListGameRequest listGamesRequest = new ListGameRequest(authToken);
+        GameListResult gameListResult = serverFacade.listGames(listGamesRequest);
+        Assertions.assertNull(gameListResult.message());
+    }
+
+    @Test
+    public void listGamesTestNegative() {
+        AuthResult authResult = serverFacade.register(registerRequest);
+        String authToken = authResult.authToken();
+
+        CreateGameRequest createGameRequest = new CreateGameRequest("name", authToken);
+        serverFacade.createGame(createGameRequest);
+        ListGameRequest listGamesRequest = new ListGameRequest("notAuthToken");
+        GameListResult gameListResult = serverFacade.listGames(listGamesRequest);
+        Assertions.assertNotNull(gameListResult.message());
     }
 }

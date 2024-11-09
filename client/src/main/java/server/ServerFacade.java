@@ -1,10 +1,10 @@
 package server;
 
 import com.google.gson.Gson;
-import request.LoginRequest;
-import request.LogoutRequest;
-import request.RegisterRequest;
+import request.*;
 import result.AuthResult;
+import result.GameListResult;
+import result.GameResult;
 import result.Result;
 
 import java.io.IOException;
@@ -114,6 +114,22 @@ public class ServerFacade {
     public AuthResult logout(LogoutRequest logoutRequest) {
         try {
             return makeRequest("DELETE", urlString + "/session", logoutRequest, logoutRequest.authToken(), AuthResult.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public GameResult createGame(CreateGameRequest createGameRequest) {
+        try {
+            return makeRequest("POST", urlString + "/game", createGameRequest, createGameRequest.authToken(), GameResult.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public GameListResult listGames(ListGameRequest listGamesRequest) {
+        try {
+            return makeRequest("GET", urlString + "/game", listGamesRequest, listGamesRequest.authToken(), GameListResult.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
