@@ -3,9 +3,8 @@ package ui;
 import model.GameData;
 import request.*;
 import result.AuthResult;
-import result.GameListResult;
+import result.ListGameResult;
 import result.GameResult;
-import result.Result;
 import server.ServerFacade;
 
 import java.util.HashMap;
@@ -24,13 +23,13 @@ public class ChessClient {
 
     }
 
+
     public void run() {
         while (true) {
             if (serverFacade.getAuthToken() == null) {
                 preLogin();
             } else {
                 postLogin();
-                break; // Exit early if authenticated on the first check
             }
         }
     }
@@ -147,7 +146,7 @@ public class ChessClient {
             String cmd = scanner.nextLine().toLowerCase().trim();
             valid = true;
             switch (cmd) {
-                case "list games" -> listGames();
+                case "list game" -> listGames();
                 case "create game" -> createGame();
                 case "join game" -> joinGame();
                 case "join observer" -> joinObserver();
@@ -217,7 +216,7 @@ public class ChessClient {
     }
 
     private void createGame() {
-        System.out.print("Enter a game name");
+        System.out.print("Enter a game name: ");
         String gameName = scanner.nextLine();
 
         CreateGameRequest createGameRequest = new CreateGameRequest(gameName, serverFacade.getAuthToken());
@@ -233,8 +232,9 @@ public class ChessClient {
     }
 
     private void listGames() {
+        System.out.println("Here are the list of the games");
         ListGameRequest listGameRequest = new ListGameRequest(serverFacade.getAuthToken());
-        GameListResult result = serverFacade.listGames(listGameRequest);
+        ListGameResult result = serverFacade.listGames(listGameRequest);
         Set<GameData> gameDataSet = result.gameDataSet();
 
         if (result.message() != null) {

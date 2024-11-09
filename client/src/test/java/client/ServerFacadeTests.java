@@ -1,17 +1,13 @@
 package client;
 
-import passoff.model.TestResult;
 import request.*;
 import org.junit.jupiter.api.*;
 import result.AuthResult;
-import result.GameListResult;
+import result.ListGameResult;
 import result.GameResult;
 import result.Result;
 import server.Server;
 import server.ServerFacade;
-
-import java.net.HttpURLConnection;
-import java.util.Locale;
 
 
 public class ServerFacadeTests {
@@ -128,8 +124,8 @@ public class ServerFacadeTests {
         CreateGameRequest createGameRequest = new CreateGameRequest("name", authToken);
         serverFacade.createGame(createGameRequest);
         ListGameRequest listGamesRequest = new ListGameRequest(authToken);
-        GameListResult gameListResult = serverFacade.listGames(listGamesRequest);
-        Assertions.assertNull(gameListResult.message());
+        ListGameResult listGameResult = serverFacade.listGames(listGamesRequest);
+        Assertions.assertNull(listGameResult.message());
     }
 
     @Test
@@ -140,7 +136,7 @@ public class ServerFacadeTests {
         CreateGameRequest createGameRequest = new CreateGameRequest("name", authToken);
         serverFacade.createGame(createGameRequest);
         ListGameRequest listGamesRequest = new ListGameRequest("notAuthToken");
-        GameListResult gameListResult = serverFacade.listGames(listGamesRequest);
-        Assertions.assertNotNull(gameListResult.message());
+        ListGameResult listGameResult = serverFacade.listGames(listGamesRequest);
+        Assertions.assertNotNull(listGameResult.message());
     }
 }

@@ -3,7 +3,7 @@ package server;
 import com.google.gson.Gson;
 import request.*;
 import result.AuthResult;
-import result.GameListResult;
+import result.ListGameResult;
 import result.GameResult;
 import result.Result;
 
@@ -127,9 +127,9 @@ public class ServerFacade {
         }
     }
 
-    public GameListResult listGames(ListGameRequest listGamesRequest) {
+    public ListGameResult listGames(ListGameRequest listGameRequest) {
         try {
-            return makeRequest("GET", urlString + "/game", listGamesRequest, listGamesRequest.authToken(), GameListResult.class);
+            return makeRequest("GET", urlString + "/game", listGameRequest, listGameRequest.authToken(), ListGameResult.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
