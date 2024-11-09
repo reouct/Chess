@@ -56,7 +56,7 @@ public class ChessClient {
             System.out.println("\n Type Register to create an account.");
             System.out.println(("\n Type Login to login in your account."));
             System.out.println("\n Type Quit to quit the program.");
-            System.out.println("\n Type help for some possible command. ");
+            System.out.println("\n Type Help for some possible command. ");
             System.out.println("\n Your command: ");
             String cmd = scanner.nextLine().toLowerCase().trim();
             isVaild = true;
@@ -158,7 +158,32 @@ public class ChessClient {
     }
 
     private void postLoginHelp() {
-        System.out.println("need implements");
+        System.out.println("\nHere are some commands you can use.");
+        boolean isVaild = false;
+        while (!isVaild) {
+            System.out.print("Enter one of the following commands to continue.");
+            System.out.print("\n Type Create Game to create a game");
+            System.out.print("\n Type List Game to list a game");
+            System.out.print("\n Type Join Game to join a game");
+            System.out.print("\n Type Join Observer to join as an observer");
+            System.out.print("\n Type Logout to logout");
+            System.out.print("\n Type Help for some possible command");
+            System.out.println("\n Your command: ");
+            String cmd = scanner.nextLine().toLowerCase().trim();
+            isVaild = true;
+            switch (cmd) {
+                case "create game" -> createGame();
+                case "list game" -> listGames();
+                case "join game" -> joinGame();
+                case "join observer" -> joinObserver();
+                case "logout" -> logout();
+                case "help" -> preLoginHelp();
+                default -> {
+                    isVaild = false;
+                    System.out.println("Wrong command");
+                }
+            }
+        }
     }
 
     private void logout() {
