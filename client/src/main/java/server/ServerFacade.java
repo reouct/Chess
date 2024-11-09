@@ -2,6 +2,7 @@ package server;
 
 import com.google.gson.Gson;
 import request.LoginRequest;
+import request.LogoutRequest;
 import request.RegisterRequest;
 import result.AuthResult;
 import result.Result;
@@ -110,4 +111,11 @@ public class ServerFacade {
         }
     }
 
+    public AuthResult logout(LogoutRequest logoutRequest) {
+        try {
+            return makeRequest("DELETE", urlString + "/session", logoutRequest, logoutRequest.authToken(), AuthResult.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

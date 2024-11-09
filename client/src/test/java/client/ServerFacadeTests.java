@@ -2,6 +2,7 @@ package client;
 
 import passoff.model.TestResult;
 import request.LoginRequest;
+import request.LogoutRequest;
 import request.RegisterRequest;
 import org.junit.jupiter.api.*;
 import result.AuthResult;
@@ -79,5 +80,24 @@ public class ServerFacadeTests {
     public void loginTestNegative() {
         AuthResult authResult = serverFacade.login(loginRequest);
         Assertions.assertNotNull(authResult.message());
+    }
+
+    @Test
+    public void logoutTestPositive() {
+        AuthResult authResult = serverFacade.register(registerRequest);
+        String authToken = authResult.authToken();
+
+        LogoutRequest logoutRequest = new LogoutRequest(authToken);
+        AuthResult result = serverFacade.logout(logoutRequest);
+        Assertions.assertNull(result.message());
+    }
+
+    @Test
+    public void logoutTestNegative() {
+        serverFacade.register(registerRequest);
+
+        LogoutRequest logoutRequest = new LogoutRequest("notAuthToken");
+        AuthResult result = serverFacade.logout(logoutRequest);
+        Assertions.assertNotNull(result.message());
     }
 }

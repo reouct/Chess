@@ -1,8 +1,10 @@
 package ui;
 
 import request.LoginRequest;
+import request.LogoutRequest;
 import request.RegisterRequest;
 import result.AuthResult;
+import result.Result;
 import server.ServerFacade;
 
 import java.util.Scanner;
@@ -187,7 +189,17 @@ public class ChessClient {
     }
 
     private void logout() {
-        System.out.println("need implements");
+        LogoutRequest logoutRequest = new LogoutRequest(serverFacade.getAuthToken());
+        AuthResult result = serverFacade.logout(logoutRequest);
+
+        if(result.message() != null) {
+            System.out.println("\n" + result.message());
+        }
+        else {
+            serverFacade.setAuthToken(null);
+            serverFacade.setUsername(null);
+            System.out.println("You are successfully logged out!");
+        }
     }
 
     private void joinObserver() {
