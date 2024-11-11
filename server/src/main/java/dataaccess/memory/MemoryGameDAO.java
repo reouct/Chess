@@ -59,4 +59,9 @@ public class MemoryGameDAO implements GameDAO {
         }
         game.add(data);
     }
+
+    @Override
+    public int getLatestGameID() {
+        return 0;
+    }
 }

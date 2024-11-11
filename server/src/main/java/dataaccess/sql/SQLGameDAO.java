@@ -7,6 +7,7 @@ import dataaccess.DatabaseManager;
 import dataaccess.interfaces.GameDAO;
 import model.GameData;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
@@ -115,6 +116,23 @@ public class SQLGameDAO implements GameDAO {
                 preparedStatement.setString(4, new Gson().toJson(data.game()));
                 preparedStatement.setInt(5, data.gameID());
                 preparedStatement.executeUpdate();
+            }
+        } catch (SQLException | DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int getLatestGameID() {
+        String sql = "SELECT MAX(gameID) AS maxID FROM game";
+        try (var conn = DatabaseManager.getConnection()) {
+            try (var preparedStatement = conn.prepareStatement(sql)) {
+                ResultSet rs = preparedStatement.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt("maxID");
+                } else {
+                    return 0;
+                }
             }
         } catch (SQLException | DataAccessException e) {
             throw new RuntimeException(e);

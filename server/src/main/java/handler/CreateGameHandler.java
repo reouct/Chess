@@ -11,7 +11,7 @@ import spark.Response;
 
 public class CreateGameHandler {
     private final CreateGameService createGameService;
-    int gameID = 1;
+    //int gameID = 1;
 
     public CreateGameHandler(CreateGameService createGameService) {
         this.createGameService = createGameService;
@@ -25,12 +25,13 @@ public class CreateGameHandler {
 
         String gameName = gameData.gameName();
 
-        gameID = gameID+1;
+        //gameID = gameID+1;
 
         ErrorMessages attempt1 = new ErrorMessages("Error: unauthorized");
         ErrorMessages attempt2 = new ErrorMessages("Error: bad request");
 
         try {
+            int gameID = createGameService.getLatestGameID() + 1;
             createGameService.createGame(authtoken, gameID, gameName);
             res.status(200);
             return String.format("{\"gameID\": %s}", gameID);

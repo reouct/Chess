@@ -21,6 +21,10 @@ public class CreateGameService {
         this.gameDao = gameDao;
     }
 
+    public int getLatestGameID() throws DataAccessException {
+        return gameDao.getLatestGameID();
+    }
+
 
     public void createGame(String authToken, Integer gameID, String gameName) throws DataAccessException {
         AuthData authData = authDao.getAuth(authToken);

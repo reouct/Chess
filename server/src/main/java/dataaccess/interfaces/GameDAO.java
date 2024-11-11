@@ -15,4 +15,6 @@ public interface GameDAO {
     public Set<GameData> listGames() throws DataAccessException;
 
     public void updateGame(GameData data);
+
+    public int getLatestGameID();
 }
