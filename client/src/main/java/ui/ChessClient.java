@@ -226,7 +226,7 @@ public class ChessClient {
             System.out.println("\n" + result.message());
         }
         else {
-            System.out.println("You successfully created a game with game name: " + result.gameName() );
+            System.out.println("You successfully created a game with game name: " + gameName );
         }
 
     }
@@ -235,14 +235,14 @@ public class ChessClient {
         System.out.println("Here are the list of the games");
         ListGameRequest listGameRequest = new ListGameRequest(serverFacade.getAuthToken());
         ListGameResult result = serverFacade.listGames(listGameRequest);
-        Set<GameData> gameDataSet = result.gameDataSet();
+        Set<GameData> gameDataSet = result.games();
 
         if (result.message() != null) {
             System.out.println("\n" + result.message());
         }
 
-        if (gameDataSet.isEmpty()) {
-            System.out.println("No games! Create one to play!");
+        if (gameDataSet == null) {
+            System.out.println("There are no games going on! Create one to play!");
         }
 
         System.out.println("\t#\tName\tWhite\tBlack");
@@ -250,6 +250,7 @@ public class ChessClient {
         gameList = new HashMap<>();
         int count = 0;
 
+        assert gameDataSet != null;
         for (GameData game : gameDataSet) {
             ++count;
             gameList.put(count, game.gameID());
