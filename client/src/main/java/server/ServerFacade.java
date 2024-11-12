@@ -134,4 +134,12 @@ public class ServerFacade {
             throw new RuntimeException(e);
         }
     }
+
+    public Result joinGame(JoinGameRequest joinGameRequest) {
+        try {
+            return makeRequest("PUT", urlString + "/game", joinGameRequest, joinGameRequest.authToken(), Result.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

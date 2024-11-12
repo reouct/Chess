@@ -139,4 +139,29 @@ public class ServerFacadeTests {
         ListGameResult listGameResult = serverFacade.listGames(listGamesRequest);
         Assertions.assertNotNull(listGameResult.message());
     }
+
+    @Test
+    public void joinGameTestPositive() {
+        AuthResult authResult = serverFacade.register(registerRequest);
+        String authToken = authResult.authToken();
+
+        CreateGameRequest createGameRequest = new CreateGameRequest("name", authToken);
+        GameResult gameResult = serverFacade.createGame(createGameRequest);
+        JoinGameRequest joinGameRequest = new JoinGameRequest("WHITE", gameResult.gameID(), authToken);
+        Result result = serverFacade.joinGame(joinGameRequest);
+        Assertions.assertNull(result);
+    }
+
+    @Test
+    public void joinGameTestNegative() {
+        AuthResult authResult = serverFacade.register(registerRequest);
+        String authToken = authResult.authToken();
+
+        CreateGameRequest createGameRequest = new CreateGameRequest("name", authToken);
+        GameResult gameResult = serverFacade.createGame(createGameRequest);
+        JoinGameRequest joinGameRequest = new JoinGameRequest("WHITE", gameResult.gameID(), "notAuthToken");
+        Result result = serverFacade.joinGame(joinGameRequest);
+        Assertions.assertNotNull(result.message());
+    }
+
 }
