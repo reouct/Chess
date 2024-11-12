@@ -1,13 +1,18 @@
 package ui;
 
-import chess.ChessBoard;
 import chess.ChessGame;
+import ui.ChessBoard;
 
 public class Repl {
 
-    public static void run() {
-        ChessGame game = new ChessGame();
-        System.out.println(EscapeSequences.ERASE_SCREEN);
-        System.out.println(game.getBoard());
+    public static void run(ChessGame.TeamColor view, boolean isObserving) {
+        chess.ChessBoard chessBoard = new chess.ChessBoard();
+        chessBoard.resetBoard();
+
+        if (isObserving) {
+            ChessBoard.printChessBoard(chessBoard, ChessGame.TeamColor.WHITE);
+        } else {
+            ChessBoard.printChessBoard(chessBoard,view);
+        }
     }
 }
