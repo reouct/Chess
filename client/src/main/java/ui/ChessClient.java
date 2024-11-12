@@ -1,10 +1,12 @@
 package ui;
 
+import chess.ChessGame;
 import model.GameData;
 import request.*;
 import result.AuthResult;
 import result.ListGameResult;
 import result.GameResult;
+import result.Result;
 import server.ServerFacade;
 
 import java.util.HashMap;
@@ -20,7 +22,6 @@ public class ChessClient {
     public ChessClient(int port) {
         serverFacade = new ServerFacade(port);
         scanner = new Scanner(System.in);
-
     }
 
 
@@ -152,7 +153,7 @@ public class ChessClient {
                 case "join observer" -> joinObserver();
                 case "logout" -> logout();
                 case "help" -> {
-                    System.out.println("Type one of the commands (as listed after the colon), then hit Enter.");
+                    System.out.println("Type one of the commands then hit Enter.");
                     postLoginHelp();
                 }
                 default -> {
@@ -164,7 +165,6 @@ public class ChessClient {
     }
 
     private void postLoginHelp() {
-        System.out.println("\nHere are some commands you can use.");
         boolean isVaild = false;
         while (!isVaild) {
             System.out.print("Enter one of the following commands to continue.");
@@ -207,12 +207,53 @@ public class ChessClient {
     }
 
     private void joinObserver() {
-        System.out.println("need implements");
+        if (gameList != null) {
+            System.out.print("Enter game number: ");
+            int num = scanner.nextInt();
+            scanner.nextLine();
 
+
+
+            JoinGameRequest request = new JoinGameRequest("Observer", gameList.get(num), serverFacade.getAuthToken());
+            Result result = serverFacade.joinGame(request);
+
+            if (result != null) {
+                System.out.println("\n" + result.message());
+            } else {
+                System.out.println("You just joined as an observer!");
+                Repl.run();
+            }
+        } else {
+            System.out.println("List what games are available first!");
+        }
     }
 
     private void joinGame() {
-        System.out.println("need implements");
+        if (gameList != null) {
+            System.out.print("Enter game number: ");
+            int num = scanner.nextInt();
+            scanner.nextLine();
+
+            System.out.print("Enter player color: ");
+            String playerColor = scanner.next().toUpperCase();
+            scanner.nextLine();
+
+            if (playerColor.equals("WHITE") || playerColor.equals("BLACK")) {
+                JoinGameRequest request = new JoinGameRequest(playerColor, gameList.get(num), serverFacade.getAuthToken());
+                Result result = serverFacade.joinGame(request);
+
+                if (result != null) {
+                    System.out.println("\n" + result.message());
+                } else {
+                    ChessGame.TeamColor view = playerColor.equals("WHITE") ? ChessGame.TeamColor.WHITE : ChessGame.TeamColor.BLACK;
+                    Repl.run();
+                }
+            } else {
+                System.out.println("Wrong color. Try again");
+            }
+        } else {
+            System.out.println("List what games are available first!");
+        }
     }
 
     private void createGame() {

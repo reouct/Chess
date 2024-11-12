@@ -44,6 +44,8 @@ public class JoinGameService {
             } else {
                 throw new DataAccessException("Error: already taken");
             }
+        } else if (join.playerColor().equalsIgnoreCase("Observer")){
+            System.out.println("You just joined as an observer!");
         }
 
     }
