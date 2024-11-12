@@ -15,8 +15,8 @@ public class ServerFacadeTests {
     private static Server server;
     private static ServerFacade serverFacade;
 
-    private final static RegisterRequest RegisterRequest = new RegisterRequest("testUser", "testPassword", "testemail");
-    private final static LoginRequest LoginRequest = new LoginRequest("testUser", "testPassword");
+    private final static RegisterRequest REGISTER_REQUEST = new RegisterRequest("testUser", "testPassword", "testemail");
+    private final static LoginRequest LOGIN_REQUEST = new LoginRequest("testUser", "testPassword");
 
     @BeforeAll
     public static void init() {
@@ -54,7 +54,7 @@ public class ServerFacadeTests {
 
     @Test
     public void registerTestPositive() {
-        AuthResult authResult = serverFacade.register(RegisterRequest);
+        AuthResult authResult = serverFacade.register(REGISTER_REQUEST);
         Assertions.assertNull(authResult.message());
     }
 
@@ -66,21 +66,21 @@ public class ServerFacadeTests {
 
     @Test
     public void loginTestPositive() {
-        serverFacade.register(RegisterRequest);
+        serverFacade.register(REGISTER_REQUEST);
 
-        AuthResult authResult = serverFacade.login(LoginRequest);
+        AuthResult authResult = serverFacade.login(LOGIN_REQUEST);
         Assertions.assertNull(authResult.message());
     }
 
     @Test
     public void loginTestNegative() {
-        AuthResult authResult = serverFacade.login(LoginRequest);
+        AuthResult authResult = serverFacade.login(LOGIN_REQUEST);
         Assertions.assertNotNull(authResult.message());
     }
 
     @Test
     public void logoutTestPositive() {
-        AuthResult authResult = serverFacade.register(RegisterRequest);
+        AuthResult authResult = serverFacade.register(REGISTER_REQUEST);
         String authToken = authResult.authToken();
 
         LogoutRequest logoutRequest = new LogoutRequest(authToken);
@@ -90,7 +90,7 @@ public class ServerFacadeTests {
 
     @Test
     public void logoutTestNegative() {
-        serverFacade.register(RegisterRequest);
+        serverFacade.register(REGISTER_REQUEST);
 
         LogoutRequest logoutRequest = new LogoutRequest("notAuthToken");
         AuthResult result = serverFacade.logout(logoutRequest);
@@ -99,7 +99,7 @@ public class ServerFacadeTests {
 
     @Test
     public void createGameTestPositive() {
-        AuthResult authResult = serverFacade.register(RegisterRequest);
+        AuthResult authResult = serverFacade.register(REGISTER_REQUEST);
         String authToken = authResult.authToken();
 
         CreateGameRequest createGameRequest = new CreateGameRequest("name", authToken);
@@ -109,7 +109,7 @@ public class ServerFacadeTests {
 
     @Test
     public void createGameTestNegative() {
-        serverFacade.register(RegisterRequest);
+        serverFacade.register(REGISTER_REQUEST);
 
         CreateGameRequest createGameRequest = new CreateGameRequest("name", "notAuthToken");
         GameResult gameResult = serverFacade.createGame(createGameRequest);
@@ -118,7 +118,7 @@ public class ServerFacadeTests {
 
     @Test
     public void listGamesTestPositive() {
-        AuthResult authResult = serverFacade.register(RegisterRequest);
+        AuthResult authResult = serverFacade.register(REGISTER_REQUEST);
         String authToken = authResult.authToken();
 
         CreateGameRequest createGameRequest = new CreateGameRequest("name", authToken);
@@ -130,7 +130,7 @@ public class ServerFacadeTests {
 
     @Test
     public void listGamesTestNegative() {
-        AuthResult authResult = serverFacade.register(RegisterRequest);
+        AuthResult authResult = serverFacade.register(REGISTER_REQUEST);
         String authToken = authResult.authToken();
 
         CreateGameRequest createGameRequest = new CreateGameRequest("name", authToken);
@@ -142,7 +142,7 @@ public class ServerFacadeTests {
 
     @Test
     public void joinGameTestPositive() {
-        AuthResult authResult = serverFacade.register(RegisterRequest);
+        AuthResult authResult = serverFacade.register(REGISTER_REQUEST);
         String authToken = authResult.authToken();
 
         CreateGameRequest createGameRequest = new CreateGameRequest("name", authToken);
@@ -154,7 +154,7 @@ public class ServerFacadeTests {
 
     @Test
     public void joinGameTestNegative() {
-        AuthResult authResult = serverFacade.register(RegisterRequest);
+        AuthResult authResult = serverFacade.register(REGISTER_REQUEST);
         String authToken = authResult.authToken();
 
         CreateGameRequest createGameRequest = new CreateGameRequest("name", authToken);
