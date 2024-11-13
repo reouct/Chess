@@ -11,8 +11,10 @@ public class Repl {
 
         if (isObserving) {
             ChessBoard.printChessBoard(chessBoard, ChessGame.TeamColor.WHITE);
-        } else {
-            ChessBoard.printChessBoard(chessBoard,view);
+        } else if (view == ChessGame.TeamColor.WHITE){
+            ChessBoard.printChessBoard(chessBoard, ChessGame.TeamColor.WHITE);
+        } else if (view == ChessGame.TeamColor.BLACK) {
+            ChessBoard.printChessBoard(chessBoard, ChessGame.TeamColor.BLACK);
         }
     }
 }
