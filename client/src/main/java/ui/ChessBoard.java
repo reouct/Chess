@@ -41,21 +41,21 @@ public class ChessBoard {
         }
         return switch (piece.getPieceType()) {
             case KING -> (piece.getTeamColor() == ChessGame.TeamColor.WHITE)
-                    ? SET_TEXT_COLOR_RED + "K" : SET_TEXT_COLOR_BLUE + "k";
+                    ? SET_TEXT_COLOR_BLUE + "K" : SET_TEXT_COLOR_RED + "K";
             case QUEEN -> (piece.getTeamColor() == ChessGame.TeamColor.WHITE)
-                    ? SET_TEXT_COLOR_RED + "Q" : SET_TEXT_COLOR_BLUE + "q";
+                    ? SET_TEXT_COLOR_BLUE + "Q" : SET_TEXT_COLOR_RED + "Q";
             case ROOK -> (piece.getTeamColor() == ChessGame.TeamColor.WHITE)
-                    ? SET_TEXT_COLOR_RED + "R" : SET_TEXT_COLOR_BLUE + "r";
+                    ? SET_TEXT_COLOR_BLUE + "R" : SET_TEXT_COLOR_RED + "R";
             case BISHOP -> (piece.getTeamColor() == ChessGame.TeamColor.WHITE)
-                    ? SET_TEXT_COLOR_RED + "B" : SET_TEXT_COLOR_BLUE + "b";
+                    ? SET_TEXT_COLOR_BLUE + "B" : SET_TEXT_COLOR_RED + "B";
             case KNIGHT -> (piece.getTeamColor() == ChessGame.TeamColor.WHITE)
-                    ? SET_TEXT_COLOR_RED + "N" : SET_TEXT_COLOR_BLUE + "n";
+                    ? SET_TEXT_COLOR_BLUE + "N" : SET_TEXT_COLOR_RED + "N";
             case PAWN -> (piece.getTeamColor() == ChessGame.TeamColor.WHITE)
-                    ? SET_TEXT_COLOR_RED + "P" : SET_TEXT_COLOR_BLUE + "p";
+                    ? SET_TEXT_COLOR_BLUE + "P" : SET_TEXT_COLOR_RED + "P";
         };
     }
 
-    public static void printChessBoard(chess.ChessBoard board, ChessGame.TeamColor view){
+    public static void printChessBoard(chess.ChessBoard board, ChessGame.TeamColor view) {
         String[] rowLabels;
         String[] colLabels;
 
@@ -71,36 +71,34 @@ public class ChessBoard {
         // Labels
         TEXT[0] = rowLabels;
         TEXT[9] = rowLabels;
-        for(int i = 0; i < 10; ++i){
+        for (int i = 0; i < 10; ++i) {
             TEXT[i][0] = colLabels[i];
             TEXT[i][9] = colLabels[i];
         }
 
-        
-
-        // Chess pieces
-        for (int r = 1; r < 9; ++r) {
-            for (int c = 1; c < 9; ++c) {
-                if(view == ChessGame.TeamColor.WHITE) {
-                    ChessPiece piece = board.getPiece(new ChessPosition(r, c));
-                    TEXT[r][c] = toCharacterRepresentation(piece);
-                }
-                else {
-                    ChessPiece piece = board.getPiece(new ChessPosition(r, c));
-                    TEXT[r][c] = toCharacterRepresentation(piece);
+            // Chess pieces
+            for (int r = 1; r < 9; ++r) {
+                for (int c = 1; c < 9; ++c) {
+                    if (view == ChessGame.TeamColor.WHITE) {
+                        ChessPiece piece = board.getPiece(new ChessPosition(r, c));
+                        TEXT[r][c] = toCharacterRepresentation(piece);
+                    } else {
+                        ChessPiece piece = board.getPiece(new ChessPosition(9- r, 9- c));
+                        TEXT[r][c] = toCharacterRepresentation(piece);
+                    }
                 }
             }
-        }
+            
 
-        for (int r = 0; r < 10; ++r) {
-            for (int c = 0; c < 10; ++c) {
-                System.out.print(STYLES[r][c]);
-                System.out.print(" " + TEXT[r][c] + " ");
-                if (c == 9) {
-                    System.out.print(END_LABEL);
+            for (int r = 0; r < 10; ++r) {
+                for (int c = 0; c < 10; ++c) {
+                    System.out.print(STYLES[r][c]);
+                    System.out.print(" " + TEXT[r][c] + " ");
+                    if (c == 9) {
+                        System.out.print(END_LABEL);
+                    }
                 }
+                System.out.println();
             }
-            System.out.println();
-        }
     }
 }
