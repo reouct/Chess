@@ -76,29 +76,29 @@ public class ChessBoard {
             TEXT[i][9] = colLabels[i];
         }
 
-            // Chess pieces
-            for (int r = 1; r < 9; ++r) {
-                for (int c = 1; c < 9; ++c) {
-                    if (view == ChessGame.TeamColor.WHITE) {
-                        ChessPiece piece = board.getPiece(new ChessPosition(r, c));
-                        TEXT[r][c] = toCharacterRepresentation(piece);
-                    } else {
-                        ChessPiece piece = board.getPiece(new ChessPosition(9- r, 9- c));
-                        TEXT[r][c] = toCharacterRepresentation(piece);
-                    }
+        // Chess pieces
+        for (int r = 1; r < 9; ++r) {
+            for (int c = 1; c < 9; ++c) {
+                if (view == ChessGame.TeamColor.WHITE) {
+                    ChessPiece piece = board.getPiece(new ChessPosition(r, c));
+                    TEXT[r][c] = toCharacterRepresentation(piece);
+                } else {
+                    ChessPiece piece = board.getPiece(new ChessPosition(9- r, 9- c));
+                    TEXT[r][c] = toCharacterRepresentation(piece);
                 }
             }
-            
+        }
 
-            for (int r = 0; r < 10; ++r) {
-                for (int c = 0; c < 10; ++c) {
-                    System.out.print(STYLES[r][c]);
-                    System.out.print(" " + TEXT[r][c] + " ");
-                    if (c == 9) {
-                        System.out.print(END_LABEL);
-                    }
+
+        for (int r = 0; r < 10; ++r) {
+            for (int c = 0; c < 10; ++c) {
+                System.out.print(STYLES[r][c]);
+                System.out.print(" " + TEXT[r][c] + " ");
+                if (c == 9) {
+                    System.out.print(END_LABEL);
                 }
-                System.out.println();
             }
+            System.out.println();
+        }
     }
 }
