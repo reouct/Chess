@@ -19,10 +19,12 @@ public class ChessClient {
     private final ServerFacade serverFacade;
     private final Scanner scanner;
     private Map<Integer,Integer> gameList;
+    private final Repl repl;
 
     public ChessClient(int port) {
         serverFacade = new ServerFacade(port);
         scanner = new Scanner(System.in);
+        repl = new Repl(port);
     }
 
 
@@ -222,7 +224,7 @@ public class ChessClient {
                 System.out.println("\n" + result.message());
             } else {
                 System.out.println("You just joined as an observer!");
-                Repl.run(view,true);
+                Repl.run(serverFacade.getAuthToken(), request.gameID(), view,true);
             }
         } else {
             System.out.println("List what games are available first!");
@@ -247,7 +249,7 @@ public class ChessClient {
                     System.out.println("\n" + result.message());
                 } else {
                     ChessGame.TeamColor view = playerColor.equals("WHITE") ? ChessGame.TeamColor.WHITE : ChessGame.TeamColor.BLACK;
-                    Repl.run(view,false);
+                    Repl.run(serverFacade.getAuthToken(), request.gameID(), view,false);
                 }
             } else {
                 System.out.println("Wrong color. Try again");
