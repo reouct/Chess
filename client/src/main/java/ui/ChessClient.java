@@ -10,6 +10,7 @@ import result.GameResult;
 import result.Result;
 import server.ServerFacade;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -28,7 +29,7 @@ public class ChessClient {
     }
 
 
-    public void run() {
+    public void run() throws IOException {
         while (true) {
             if (serverFacade.getAuthToken() == null) {
                 preLogin();
@@ -135,7 +136,7 @@ public class ChessClient {
     }
 
 
-    private void postLogin() {
+    private void postLogin() throws IOException {
         System.out.print("Enter one of the following commands to continue.");
         System.out.print("\n Type Create Game to create a game");
         System.out.print("\n Type List Game to list a game");
@@ -167,7 +168,7 @@ public class ChessClient {
         }
     }
 
-    private void postLoginHelp() {
+    private void postLoginHelp() throws IOException {
         boolean isVaild = false;
         while (!isVaild) {
             System.out.print("Enter one of the following commands to continue.");
@@ -209,7 +210,7 @@ public class ChessClient {
         }
     }
 
-    private void joinObserver() {
+    private void joinObserver() throws IOException {
         if (gameList != null) {
             System.out.print("Enter game number: ");
             int num = scanner.nextInt();
@@ -231,7 +232,7 @@ public class ChessClient {
         }
     }
 
-    private void joinGame() {
+    private void joinGame() throws IOException {
         if (gameList != null) {
             System.out.print("Enter game number: ");
             int num = scanner.nextInt();

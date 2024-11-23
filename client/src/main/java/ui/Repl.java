@@ -1,8 +1,7 @@
 package ui;
 
 import chess.ChessGame;
-import ui.ChessBoard;
-import websocket.CommandHandler;
+import websocket.NotificationHandler;
 import websocket.WebSocketFacade;
 import websocket.messages.ErrorMessage;
 import websocket.messages.LoadGameMessage;
@@ -12,7 +11,7 @@ import websocket.messages.ServerMessage;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Repl implements CommandHandler{
+public class Repl implements NotificationHandler {
     static Scanner scanner = new Scanner(System.in);
 
     private static WebSocketFacade webSocketFacade;
@@ -28,10 +27,9 @@ public class Repl implements CommandHandler{
     }
 
 
-    public void run(String authToken, int gameID, ChessGame.TeamColor view, boolean isObserving) throws IOException {
-        this.view = view;
-        this.authToken = authToken;
-        this.gameID = gameID;
+    public static void run(String authToken, int gameID, ChessGame.TeamColor view, boolean isObserving) throws IOException {
+        Repl.authToken = authToken;
+        Repl.gameID = gameID;
 
         chess.ChessBoard chessBoard = new chess.ChessBoard();
         chessBoard.resetBoard();

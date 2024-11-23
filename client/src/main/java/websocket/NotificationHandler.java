@@ -2,6 +2,6 @@ package websocket;
 
 import websocket.messages.ServerMessage;
 
-public interface CommandHandler {
+public interface NotificationHandler {
     void notify(ServerMessage notification);
 }

@@ -13,21 +13,21 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class WebSocketFacade {
+public class WebSocketFacade extends Endpoint{
 
-    CommandHandler commandHandler;
+    NotificationHandler notificationHandler;
     Session session;
 
-    public WebSocketFacade(int port, CommandHandler commandHandler) {
+    public WebSocketFacade(int port, NotificationHandler notificationHandler) {
         try {
-            String url = "ws://localhost:"+port;
+            String url = "ws://localhost:" + port;
             URI socketURI = new URI(url + "/connect");
-            this.commandHandler = commandHandler;
+            this.notificationHandler = notificationHandler;
 
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             this.session = container.connectToServer(this, socketURI);
 
-            //set message handler
+            // set message handler
             this.session.addMessageHandler(new MessageHandler.Whole<String>() {
                 public void onMessage(String message) {
                     ServerMessage notification = new Gson().fromJson(message, ServerMessage.class);
@@ -36,7 +36,7 @@ public class WebSocketFacade {
                         case LOAD_GAME -> notification = new Gson().fromJson(message, LoadGameMessage.class);
                         case ERROR -> notification = new Gson().fromJson(message, ErrorMessage.class);
                     }
-                    commandHandler.notify(notification);
+                    notificationHandler.notify(notification);
                 }
             });
         } catch (DeploymentException | IOException | URISyntaxException ex) {
@@ -44,8 +44,8 @@ public class WebSocketFacade {
         }
     }
 
-    public WebSocketFacade(CommandHandler commandHandler) {
-        this.commandHandler = commandHandler;
+    public WebSocketFacade(NotificationHandler notificationHandler) {
+        this.notificationHandler = notificationHandler;
     }
 
     public void leave(String auth, Integer gameID) throws IOException {
@@ -56,5 +56,10 @@ public class WebSocketFacade {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void onOpen(Session session, EndpointConfig config) {
+
     }
 }
