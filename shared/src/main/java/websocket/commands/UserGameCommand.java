@@ -30,6 +30,8 @@ public class UserGameCommand {
 
     protected String authToken;
 
+    protected String username;
+
     public String getAuthString() {
         return authToken;
     }
@@ -37,6 +39,8 @@ public class UserGameCommand {
     public CommandType getCommandType() {
         return this.commandType;
     }
+
+    public String getUsername() {return username;}
 
     @Override
     public boolean equals(Object o) {

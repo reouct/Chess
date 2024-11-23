@@ -23,7 +23,7 @@ public class RegisterService {
         }
         //userDao.createUser(user);
         String hashedPassword = BCrypt.hashpw(user.password(),BCrypt.gensalt());
-        UserData hashedUser = new UserData(user.username(),hashedPassword,user.email());
+        UserData hashedUser = new UserData(user.username(),hashedPassword, user.email());
         userDao.createUser(hashedUser);
         String authtoken = authDao.createAuth(user.username());
         return new AuthData(authtoken, user.username());

@@ -11,6 +11,7 @@ import dataaccess.sql.SQLGameDAO;
 import dataaccess.sql.SQLUserDAO;
 import handler.*;
 //import handler.RegisterHandler;
+import server.websocket.WebSocketHandler;
 import service.*;
 import spark.*;
 
@@ -30,6 +31,9 @@ public class Server {
     public int run(int desiredPort) {
         Spark.port(desiredPort);
 
+        WebSocketHandler webSocketHandler = new WebSocketHandler(userDao, gameDao);
+        Spark.webSocket("/ws", webSocketHandler);
+
         Spark.staticFiles.location("web");
         ClearHandler clearHandler = new ClearHandler(clearService);
         RegisterHandler registerHandler = new RegisterHandler(registerService);
@@ -46,8 +50,6 @@ public class Server {
         Spark.get("/game", listGameHandler::list);
         Spark.post("/game", createGameHandler::createGame);
         Spark.put("/game", joinGameHandler::joinGame);
-        //This line initializes the server and can be removed once you have a functioning endpoint 
-        //park.init();
 
         Spark.awaitInitialization();
         return Spark.port();
