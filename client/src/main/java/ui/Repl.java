@@ -4,6 +4,7 @@ import chess.ChessGame;
 import chess.ChessMove;
 import chess.ChessPiece;
 import chess.ChessPosition;
+import com.google.gson.Gson;
 import websocket.NotificationHandler;
 import websocket.WebSocketFacade;
 import websocket.messages.ErrorMessage;
@@ -37,6 +38,8 @@ public class Repl implements NotificationHandler {
 
         chess.ChessBoard chessBoard = new chess.ChessBoard();
         chessBoard.resetBoard();
+
+        game = new ChessGame();
 
         if (isObserving) {
             ChessBoard.printChessBoard(chessBoard, ChessGame.TeamColor.WHITE);
@@ -93,10 +96,10 @@ public class Repl implements NotificationHandler {
     }
 
     private static void makeMove() {
-        System.out.println("Start Position: ");
+        System.out.println("Start Position: (for example a1)");
         String s = scanner.next().toLowerCase();
         scanner.nextLine();
-        System.out.println("End Position: ");
+        System.out.println("End Position: (for example a2)");
         String e = scanner.next().toLowerCase();
         scanner.nextLine();
 
@@ -110,6 +113,8 @@ public class Repl implements NotificationHandler {
         ChessPosition endPosition = new ChessPosition(endRow, endCol);
 
         ChessPiece.PieceType type = null;
+
+        // Promotion
         if(startRow>=1 && startRow<=8 && startCol>=1 && startCol<=8
                 && game.getBoard().getPiece(startPosition).getPieceType() == ChessPiece.PieceType.PAWN
                 && (endRow == 1 || endRow == 8)) {

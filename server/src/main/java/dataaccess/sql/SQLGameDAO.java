@@ -146,7 +146,7 @@ public class SQLGameDAO implements GameDAO {
               `whiteUsername` varchar(256),
               `blackUsername` varchar(256),
               `gameName` varchar(256),
-              `game` varchar(2048),
+              `game` longtext,
               PRIMARY KEY (`gameID`)
             )
             """

@@ -113,6 +113,7 @@ public class WebSocketHandler {
             data = gameDao.getGame(data.gameID());
             ChessGame game = data.game();
 
+            // Make Invalid Move
             if((game.getTeamTurn() == ChessGame.TeamColor.WHITE && !username.equals(data.whiteUsername()))
                     || (game.getTeamTurn() == ChessGame.TeamColor.BLACK && !username.equals(data.blackUsername()))) {
                 String output = "You can't make moves right now.";
@@ -120,13 +121,14 @@ public class WebSocketHandler {
                 lobby.send(username, new Gson().toJson(message));
                 return;
             }
+
+            // Make Move Game Over
             if(game.isGameOver()) {
                 String output = "Game has ended.";
                 ErrorMessage message = new ErrorMessage(output);
                 lobby.send(username, new Gson().toJson(message));
                 return;
             }
-
 
             try {
                 game.makeMove(move);
