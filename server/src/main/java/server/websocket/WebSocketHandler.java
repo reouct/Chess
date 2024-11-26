@@ -1,6 +1,8 @@
 package server.websocket;
 
 import chess.ChessGame;
+import chess.ChessMove;
+import chess.InvalidMoveException;
 import com.google.gson.Gson;
 import dataaccess.DataAccessException;
 import dataaccess.interfaces.AuthDAO;
@@ -14,6 +16,7 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import websocket.commands.ConnectCommand;
 import websocket.commands.LeaveCommand;
+import websocket.commands.MakeMoveCommand;
 import websocket.commands.UserGameCommand;
 import websocket.messages.ErrorMessage;
 import websocket.messages.LoadGameMessage;
@@ -88,6 +91,8 @@ public class WebSocketHandler {
 
             }
             case MAKE_MOVE -> {
+                MakeMoveCommand cmd = new Gson().fromJson(json, MakeMoveCommand.class);
+                makeMove(username,cmd.getGameID(), cmd.getMove());
 
             }
             case LEAVE -> {
@@ -99,6 +104,51 @@ public class WebSocketHandler {
             }
             }
         }
+
+    private void makeMove(String username, Integer gameID, ChessMove move) throws IOException {
+        ConnectionManager lobby = getLobby(gameID);
+
+        try {
+            GameData data = new GameData(gameID,null,null,null,null);
+            data = gameDao.getGame(data.gameID());
+            ChessGame game = data.game();
+
+            if((game.getTeamTurn() == ChessGame.TeamColor.WHITE && !username.equals(data.whiteUsername()))
+                    || (game.getTeamTurn() == ChessGame.TeamColor.BLACK && !username.equals(data.blackUsername()))) {
+                String output = "You can't make moves right now.";
+                ErrorMessage message = new ErrorMessage(output);
+                lobby.send(username, new Gson().toJson(message));
+                return;
+            }
+            if(game.isGameOver()) {
+                String output = "Game has ended.";
+                ErrorMessage message = new ErrorMessage(output);
+                lobby.send(username, new Gson().toJson(message));
+                return;
+            }
+
+
+            try {
+                game.makeMove(move);
+            } catch (InvalidMoveException e) {
+                String output = "Invalid Move.";
+                ErrorMessage message = new ErrorMessage(output);
+                lobby.send(username, new Gson().toJson(message));
+                return;
+            }
+            GameData updatedGame = new GameData(gameID, data.whiteUsername(), data.blackUsername(), data.gameName(), game);
+            gameDao.updateGame(updatedGame);
+
+            LoadGameMessage loadGameMessage = new LoadGameMessage(game);
+            lobby.broadcast(null, new Gson().toJson(loadGameMessage));
+
+            String output = username+" moved.";
+            NotificationMessage message = new NotificationMessage(output);
+            lobby.broadcast(username, new Gson().toJson(message));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private void leave(String username, Integer gameID) throws IOException {
         ConnectionManager lobby = getLobby(gameID);

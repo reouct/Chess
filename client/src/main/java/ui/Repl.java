@@ -1,6 +1,9 @@
 package ui;
 
 import chess.ChessGame;
+import chess.ChessMove;
+import chess.ChessPiece;
+import chess.ChessPosition;
 import websocket.NotificationHandler;
 import websocket.WebSocketFacade;
 import websocket.messages.ErrorMessage;
@@ -19,6 +22,7 @@ public class Repl implements NotificationHandler {
     private int port;
     private static String authToken;
     private static int gameID;
+    private static ChessGame game;
     private ChessGame.TeamColor view;
 
     public Repl(int port) {
@@ -89,7 +93,40 @@ public class Repl implements NotificationHandler {
     }
 
     private static void makeMove() {
-        System.out.println("not implemented");
+        System.out.println("Start Position: ");
+        String s = scanner.next().toLowerCase();
+        scanner.nextLine();
+        System.out.println("End Position: ");
+        String e = scanner.next().toLowerCase();
+        scanner.nextLine();
+
+        int startRow = Character.getNumericValue(s.charAt(1));
+        int startCol = 1+(s.charAt(0)-'a');
+
+        int endRow = Character.getNumericValue(e.charAt(1));
+        int endCol = 1+(e.charAt(0)-'a');
+
+        ChessPosition startPosition = new ChessPosition(startRow, startCol);
+        ChessPosition endPosition = new ChessPosition(endRow, endCol);
+
+        ChessPiece.PieceType type = null;
+        if(startRow>=1 && startRow<=8 && startCol>=1 && startCol<=8
+                && game.getBoard().getPiece(startPosition).getPieceType() == ChessPiece.PieceType.PAWN
+                && (endRow == 1 || endRow == 8)) {
+            System.out.print("Enter promotion piece type: ");
+            String typeString = scanner.next().toLowerCase();
+            scanner.nextLine();
+            switch (typeString) {
+                case "queen" -> type = ChessPiece.PieceType.QUEEN;
+                case "rook" -> type = ChessPiece.PieceType.ROOK;
+                case "bishop" -> type = ChessPiece.PieceType.BISHOP;
+                case "knight" -> type = ChessPiece.PieceType.KNIGHT;
+            }
+        }
+
+        ChessMove move = new ChessMove(startPosition, endPosition, type);
+
+        webSocketFacade.makeMove(authToken, gameID, move);
     }
 
     @Override

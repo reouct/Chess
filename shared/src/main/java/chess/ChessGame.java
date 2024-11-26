@@ -114,6 +114,10 @@ public class ChessGame {
         updateStatus();
     }
 
+    public boolean isGameOver() {
+        return false;
+    }
+
     /**
      * Enum identifying the 2 possible teams in a chess game
      */
