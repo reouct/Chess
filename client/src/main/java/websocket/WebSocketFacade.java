@@ -34,7 +34,11 @@ public class WebSocketFacade extends Endpoint{
                     switch (notification.getServerMessageType()) {
                         case NOTIFICATION -> notification = new Gson().fromJson(message, NotificationMessage.class);
                         case LOAD_GAME -> notification = new Gson().fromJson(message, LoadGameMessage.class);
-                        case ERROR -> notification = new Gson().fromJson(message, ErrorMessage.class);
+                        case ERROR -> {
+                            notification = new Gson().fromJson(message, ErrorMessage.class);
+                            System.err.println("Error received: " + ((ErrorMessage) notification).getErrorMessage());
+                        }
+                        default -> System.err.println("Unexpected message type: " + notification.getServerMessageType());
                     }
                     notificationHandler.notify(notification);
                 }

@@ -18,6 +18,8 @@ public class UserGameCommand {
         this.authToken = authToken;
     }
 
+
+
     public enum CommandType {
         JOIN_PLAYER,
         JOIN_OBSERVER,
@@ -41,6 +43,7 @@ public class UserGameCommand {
     }
 
     public String getUsername() {return username;}
+
 
     @Override
     public boolean equals(Object o) {

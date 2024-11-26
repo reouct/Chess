@@ -1,17 +1,22 @@
 package server.websocket;
 
+import chess.ChessGame;
 import com.google.gson.Gson;
 import dataaccess.DataAccessException;
+import dataaccess.interfaces.AuthDAO;
 import dataaccess.interfaces.GameDAO;
 import dataaccess.interfaces.UserDAO;
+import model.AuthData;
 import model.GameData;
 import model.UserData;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+import websocket.commands.ConnectCommand;
 import websocket.commands.LeaveCommand;
 import websocket.commands.UserGameCommand;
 import websocket.messages.ErrorMessage;
+import websocket.messages.LoadGameMessage;
 import websocket.messages.NotificationMessage;
 
 import java.io.IOException;
@@ -22,20 +27,21 @@ import java.util.Map;
 public class WebSocketHandler {
     UserDAO userDao;
     GameDAO gameDao;
+    AuthDAO authDao;
 
     private final ConnectionManager connections = new ConnectionManager();
     private final Map<Integer, ConnectionManager> lobbies = new HashMap<>();
 
-    public WebSocketHandler(UserDAO userDao, GameDAO gameDao) {
+    public WebSocketHandler(UserDAO userDao, GameDAO gameDao, AuthDAO authDao) {
         this.userDao = userDao;
         this.gameDao = gameDao;
+        this.authDao = authDao;
     }
 
     @OnWebSocketMessage
     public void onMessage(Session session, String json) throws IOException {
         UserGameCommand command = new Gson().fromJson(json, UserGameCommand.class);
-        UserData data = new UserData(command.getUsername(), null, null);
-        data = userDao.getUser(data.username());
+        AuthData data = authDao.getAuth(command.getAuthString());
 
         if(data == null) {
             String output = "Unauthorized.";
@@ -47,6 +53,43 @@ public class WebSocketHandler {
 
         switch (command.getCommandType()) {
 
+            case JOIN_PLAYER -> {
+
+            }
+
+            case JOIN_OBSERVER -> {
+
+            }
+
+            case CONNECT -> {
+                // Deserialize the command to get the game ID
+                ConnectCommand cmd = new Gson().fromJson(json, ConnectCommand.class);
+                int gameID = cmd.getGameID();
+
+                // Get the lobby for the game
+                ConnectionManager lobby = getLobby(gameID);
+
+                // Add the user to the lobby
+                lobby.add(username, session);
+                GameData gameData = gameDao.getGame(gameID);
+                if (gameData == null || gameData.game() == null) {
+                    String output = "Game not found.";
+                    ErrorMessage message = new ErrorMessage(output);
+                    connections.cancelSession(session, new Gson().toJson(message));
+                    return;
+                }
+                LoadGameMessage message1 = new LoadGameMessage(gameData.game());
+                lobby.send(username, new Gson().toJson(message1));
+
+                // Notify other users in the lobby
+                String output = username + " has connected to the game.";
+                NotificationMessage message = new NotificationMessage(output);
+                lobby.broadcast(username, new Gson().toJson(message));
+
+            }
+            case MAKE_MOVE -> {
+
+            }
             case LEAVE -> {
                 LeaveCommand cmd = new Gson().fromJson(json, LeaveCommand.class);
                 leave(username, cmd.getGameID());
