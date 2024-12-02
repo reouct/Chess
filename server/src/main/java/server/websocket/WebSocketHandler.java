@@ -14,10 +14,7 @@ import model.UserData;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
-import websocket.commands.ConnectCommand;
-import websocket.commands.LeaveCommand;
-import websocket.commands.MakeMoveCommand;
-import websocket.commands.UserGameCommand;
+import websocket.commands.*;
 import websocket.messages.ErrorMessage;
 import websocket.messages.LoadGameMessage;
 import websocket.messages.NotificationMessage;
@@ -100,10 +97,47 @@ public class WebSocketHandler {
                 leave(username, cmd.getGameID());
             }
             case RESIGN -> {
-
+                ResignCommand cmd = new Gson().fromJson(json, ResignCommand.class);
+                resign(username, cmd.getGameID());
             }
             }
         }
+
+    private void resign(String username, Integer gameID) throws IOException {
+        ConnectionManager lobby = getLobby(gameID);
+
+        try {
+            GameData data = new GameData(gameID, null, null, null, null);
+            data = gameDao.getGame(data.gameID());
+            ChessGame game = data.game();
+
+            // Check if the user is a player in the game
+            if (!(username.equals(data.whiteUsername())||username.equals(data.blackUsername()))) {
+                String output = "You can't resign.";
+                ErrorMessage message = new ErrorMessage(output);
+                lobby.send(username, new Gson().toJson(message));
+                return;
+            }
+
+            // Check if the game is already over
+            if(game.isGameOver()) {
+                String output = "Game ended.";
+                ErrorMessage message = new ErrorMessage(output);
+                lobby.send(username, new Gson().toJson(message));
+                return;
+            }
+
+            game.setGameOver();
+            GameData updated = new GameData(gameID, data.whiteUsername(), data.blackUsername(), data.gameName(), game);
+            gameDao.updateGame(updated);
+
+            String output = username+" has resigned.";
+            NotificationMessage message = new NotificationMessage(output);
+            lobby.broadcast(null, new Gson().toJson(message));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private void makeMove(String username, Integer gameID, ChessMove move) throws IOException {
         ConnectionManager lobby = getLobby(gameID);

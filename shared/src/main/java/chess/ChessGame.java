@@ -11,6 +11,9 @@ import java.util.Objects;
  * signature of the existing methods.
  */
 public class ChessGame {
+
+    private boolean isGameOver;
+
     @Override
     public String toString() {
         return "ChessGame{" +
@@ -55,6 +58,7 @@ public class ChessGame {
         board = new ChessBoard();
         board.resetBoard();
         this.turn = TeamColor.WHITE;
+        this.isGameOver = false;
         this.whiteCM = false;
         this.blackCM = false;
         this.whiteSM = false;
@@ -115,7 +119,11 @@ public class ChessGame {
     }
 
     public boolean isGameOver() {
-        return false;
+        return isGameOver;
+    }
+
+    public void setGameOver() {
+        isGameOver = true;
     }
 
     /**
