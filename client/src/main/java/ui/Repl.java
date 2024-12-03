@@ -118,9 +118,9 @@ public class Repl implements NotificationHandler {
         ChessPosition startPosition = new ChessPosition(startRow, startCol);
         ChessPosition endPosition = new ChessPosition(endRow, endCol);
 
-//        ChessPiece.PieceType type = getPromotionPieceType(startRow, startCol, endRow, startPosition);
+        ChessPiece.PieceType type = getPromotionPieceType(startRow, startCol, endRow, startPosition);
 
-        ChessMove move = new ChessMove(startPosition, endPosition, null);
+        ChessMove move = new ChessMove(startPosition, endPosition, type);
 
         webSocketFacade.makeMove(authToken, gameID, move);
     }

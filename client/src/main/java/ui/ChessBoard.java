@@ -80,10 +80,10 @@ public class ChessBoard {
         for (int r = 1; r < 9; ++r) {
             for (int c = 1; c < 9; ++c) {
                 if (view == ChessGame.TeamColor.WHITE) {
-                    ChessPiece piece = board.getPiece(new ChessPosition(r, c));
+                    ChessPiece piece = board.getPiece(new ChessPosition(9-r, c));
                     TEXT[r][c] = toCharacterRepresentation(piece);
                 } else {
-                    ChessPiece piece = board.getPiece(new ChessPosition(9-r, 9-c));
+                    ChessPiece piece = board.getPiece(new ChessPosition(r, 9-c));
                     TEXT[r][c] = toCharacterRepresentation(piece);
                 }
             }
