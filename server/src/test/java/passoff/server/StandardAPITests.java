@@ -15,7 +15,6 @@ import java.util.Locale;
 public class StandardAPITests {
 
     private static TestUser existingUser;
-
     private static TestUser newUser;
 
     private static TestCreateRequest createRequest;
