@@ -221,7 +221,7 @@ public class ChessClient {
             JoinGameRequest request = new JoinGameRequest("Observer", gameList.get(num), serverFacade.getAuthToken());
             Result result = serverFacade.joinGame(request);
 
-            if (result != null) {
+            if (result.message() != null) {
                 System.out.println("\n" + result.message());
             } else {
                 System.out.println("You just joined as an observer!");
@@ -267,7 +267,7 @@ public class ChessClient {
         CreateGameRequest createGameRequest = new CreateGameRequest(gameName, serverFacade.getAuthToken());
         GameResult result = serverFacade.createGame(createGameRequest);
 
-        if(result.message() != null) {
+        if(result != null) {
             System.out.println("\n" + result.message());
         }
         else {

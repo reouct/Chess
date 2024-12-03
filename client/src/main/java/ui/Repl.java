@@ -28,7 +28,7 @@ public class Repl implements NotificationHandler {
 
     public Repl(int port) {
         this.port = port;
-        webSocketFacade = new WebSocketFacade(port, this);
+        webSocketFacade = new WebSocketFacade(8080, this);
     }
 
 
@@ -42,13 +42,16 @@ public class Repl implements NotificationHandler {
         game = new ChessGame();
 
         if (isObserving) {
-            webSocketFacade = new WebSocketFacade(port,this);
+            webSocketFacade = new WebSocketFacade(8080,this);
+            this.view = ChessGame.TeamColor.WHITE;
             webSocketFacade.joinObserver(authToken, gameID);
         } else if (view == ChessGame.TeamColor.WHITE){
-            webSocketFacade = new WebSocketFacade(port,this);
+            webSocketFacade = new WebSocketFacade(8080,this);
+            this.view = ChessGame.TeamColor.WHITE;
             webSocketFacade.joinPlayer(authToken, gameID, ChessGame.TeamColor.WHITE);
         } else if (view == ChessGame.TeamColor.BLACK) {
-            webSocketFacade = new WebSocketFacade(port,this);
+            webSocketFacade = new WebSocketFacade(8080,this);
+            this.view = ChessGame.TeamColor.BLACK;
             webSocketFacade.joinPlayer(authToken, gameID, ChessGame.TeamColor.BLACK);
         }
 
