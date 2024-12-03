@@ -16,9 +16,7 @@ public class StandardAPITests {
 
     private static TestUser existingUser;
     private static TestUser newUser;
-
     private static TestCreateRequest createRequest;
-
     private static TestServerFacade serverFacade;
     private static Server server;
 
