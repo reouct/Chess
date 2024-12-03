@@ -24,7 +24,7 @@ public class Repl implements NotificationHandler {
     private static String authToken;
     private static int gameID;
     private static ChessGame game;
-    private ChessGame.TeamColor view;
+    private static ChessGame.TeamColor view;
 
     public Repl(int port) {
         this.port = port;
@@ -94,7 +94,7 @@ public class Repl implements NotificationHandler {
     }
 
     private static void redrawChessBoard() {
-        System.out.println("not implemented");
+        ChessBoard.printChessBoard(game.getBoard(), view);
     }
 
     private static void highlightLegalMoves() {
@@ -110,34 +110,40 @@ public class Repl implements NotificationHandler {
         scanner.nextLine();
 
         int startRow = Character.getNumericValue(s.charAt(1));
-        int startCol = 1+(s.charAt(0)-'a');
+        int startCol = 1 + (s.charAt(0) - 'a');
 
         int endRow = Character.getNumericValue(e.charAt(1));
-        int endCol = 1+(e.charAt(0)-'a');
+        int endCol = 1 + (e.charAt(0) - 'a');
 
         ChessPosition startPosition = new ChessPosition(startRow, startCol);
         ChessPosition endPosition = new ChessPosition(endRow, endCol);
 
-        ChessPiece.PieceType type = null;
+//        ChessPiece.PieceType type = getPromotionPieceType(startRow, startCol, endRow, startPosition);
 
-        // Promotion
-        if(startRow>=1 && startRow<=8 && startCol>=1 && startCol<=8
-                && game.getBoard().getPiece(startPosition).getPieceType() == ChessPiece.PieceType.PAWN
-                && (endRow == 1 || endRow == 8)) {
-            System.out.print("Enter promotion piece type: ");
-            String typeString = scanner.next().toLowerCase();
-            scanner.nextLine();
-            switch (typeString) {
-                case "queen" -> type = ChessPiece.PieceType.QUEEN;
-                case "rook" -> type = ChessPiece.PieceType.ROOK;
-                case "bishop" -> type = ChessPiece.PieceType.BISHOP;
-                case "knight" -> type = ChessPiece.PieceType.KNIGHT;
-            }
-        }
-
-        ChessMove move = new ChessMove(startPosition, endPosition, type);
+        ChessMove move = new ChessMove(startPosition, endPosition, null);
 
         webSocketFacade.makeMove(authToken, gameID, move);
+    }
+
+    private static ChessPiece.PieceType getPromotionPieceType(int startRow, int startCol, int endRow, ChessPosition startPosition) {
+        if (startRow >= 1 && startRow <= 8 && startCol >= 1 && startCol <= 8
+                && game.getBoard().getPiece(startPosition).getPieceType() == ChessPiece.PieceType.PAWN
+                && (endRow == 1 || endRow == 8)) {
+            System.out.print("Enter promotion piece type (queen, rook, bishop, knight): ");
+            String typeString = scanner.next().toLowerCase();
+            scanner.nextLine();
+            return switch (typeString) {
+                case "queen" -> ChessPiece.PieceType.QUEEN;
+                case "rook" -> ChessPiece.PieceType.ROOK;
+                case "bishop" -> ChessPiece.PieceType.BISHOP;
+                case "knight" -> ChessPiece.PieceType.KNIGHT;
+                default -> {
+                    System.out.println("Invalid piece type. Defaulting to queen.");
+                    yield ChessPiece.PieceType.QUEEN;
+                }
+            };
+        }
+        return null;
     }
 
     @Override

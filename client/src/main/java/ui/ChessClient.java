@@ -267,7 +267,7 @@ public class ChessClient {
         CreateGameRequest createGameRequest = new CreateGameRequest(gameName, serverFacade.getAuthToken());
         GameResult result = serverFacade.createGame(createGameRequest);
 
-        if(result != null) {
+        if(result.message() != null) {
             System.out.println("\n" + result.message());
         }
         else {

@@ -83,7 +83,7 @@ public class ChessBoard {
                     ChessPiece piece = board.getPiece(new ChessPosition(r, c));
                     TEXT[r][c] = toCharacterRepresentation(piece);
                 } else {
-                    ChessPiece piece = board.getPiece(new ChessPosition(9- r, 9- c));
+                    ChessPiece piece = board.getPiece(new ChessPosition(9-r, 9-c));
                     TEXT[r][c] = toCharacterRepresentation(piece);
                 }
             }
