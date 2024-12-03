@@ -225,7 +225,7 @@ public class ChessClient {
                 System.out.println("\n" + result.message());
             } else {
                 System.out.println("You just joined as an observer!");
-                Repl.run(serverFacade.getAuthToken(), request.gameID(), view,true);
+                repl.run(serverFacade.getAuthToken(), request.gameID(), view,true);
             }
         } else {
             System.out.println("List what games are available first!");
@@ -250,7 +250,7 @@ public class ChessClient {
                     System.out.println("\n" + result.message());
                 } else {
                     ChessGame.TeamColor view = playerColor.equals("WHITE") ? ChessGame.TeamColor.WHITE : ChessGame.TeamColor.BLACK;
-                    Repl.run(serverFacade.getAuthToken(), request.gameID(), view,false);
+                    repl.run(serverFacade.getAuthToken(), request.gameID(), view,false);
                 }
             } else {
                 System.out.println("Wrong color. Try again");

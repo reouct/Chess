@@ -54,11 +54,17 @@ public class WebSocketHandler {
         switch (command.getCommandType()) {
 
             case JOIN_PLAYER -> {
-
+                JoinPlayerCommand cmd = new Gson().fromJson(json, JoinPlayerCommand.class);
+                if (cmd.getPlayerColor() == ChessGame.TeamColor.WHITE){
+                    joinPlayer(username, cmd.getGameID(), ChessGame.TeamColor.WHITE, session);
+                } else {
+                    joinPlayer(username, cmd.getGameID(), ChessGame.TeamColor.BLACK, session);
+                }
             }
 
             case JOIN_OBSERVER -> {
-
+                JoinObserverCommand cmd = new Gson().fromJson(json, JoinObserverCommand.class);
+                joinObserver(username, cmd.getGameID(), session);
             }
 
             case CONNECT -> {
@@ -103,6 +109,58 @@ public class WebSocketHandler {
             }
         }
 
+    private void joinPlayer(String username, Integer gameID, ChessGame.TeamColor teamColor, Session session) {
+        ConnectionManager lobby = getLobby(gameID);
+        lobby.add(username, session);
+
+        try {
+            GameData data = new GameData(gameID, null, null, null, null);
+            data = gameDao.getGame(data.gameID());
+            if(data == null) {
+                String output = "No such game exists.";
+                ErrorMessage message = new ErrorMessage(output);
+                lobby.send(username, new Gson().toJson(message));
+                return;
+            }
+            ChessGame game = data.game();
+
+            LoadGameMessage loadGameMessage = new LoadGameMessage(game);
+            lobby.send(username, new Gson().toJson(loadGameMessage));
+
+            String output = username + " has joined the game as " + teamColor + ".";
+            NotificationMessage message = new NotificationMessage(output);
+            lobby.broadcast(username, new Gson().toJson(message));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void joinObserver(String username, Integer gameID, Session session) throws IOException {
+        ConnectionManager lobby = getLobby(gameID);
+        lobby.add(username, session);
+
+        try {
+            GameData data = new GameData(gameID, null, null, null, null);
+            data = gameDao.getGame(data.gameID());
+            if(data == null) {
+                String output = "No such game exists.";
+                ErrorMessage message = new ErrorMessage(output);
+                lobby.send(username, new Gson().toJson(message));
+                return;
+            }
+            ChessGame game = data.game();
+
+            LoadGameMessage loadGameMessage = new LoadGameMessage(game);
+            lobby.send(username, new Gson().toJson(loadGameMessage));
+
+            String output = username + " has joined the game as an observer.";
+            NotificationMessage message = new NotificationMessage(output);
+            lobby.broadcast(username, new Gson().toJson(message));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void resign(String username, Integer gameID) throws IOException {
         ConnectionManager lobby = getLobby(gameID);
 
@@ -121,7 +179,7 @@ public class WebSocketHandler {
 
             // Check if the game is already over
             if(game.isGameOver()) {
-                String output = "Game ended.";
+                String output = "Game is ended.";
                 ErrorMessage message = new ErrorMessage(output);
                 lobby.send(username, new Gson().toJson(message));
                 return;
@@ -205,20 +263,17 @@ public class WebSocketHandler {
             updated = data;
             color = "observer";
         }
+
+        ConnectionManager connection = lobbies.get(gameID);
+        connection.remove(username);
         gameDao.updateGame(updated);
 
-        lobby.remove(username);
+        connection.remove(username);
         String output = username+" ("+color+") has left the game.";
         NotificationMessage message = new NotificationMessage(output);
-        lobby.broadcast(username, new Gson().toJson(message));
+        connection.broadcast(username, new Gson().toJson(message));
     }
 
-    private void sendServerError(String username, ConnectionManager lobby, DataAccessException e) throws IOException {
-        System.out.println(e.getMessage());
-        String output = "A server error occurred.";
-        ErrorMessage message = new ErrorMessage(output);
-        lobby.send(username, new Gson().toJson(message));
-    }
 
     private ConnectionManager getLobby(Integer gameID) {
         if (!lobbies.containsKey(gameID)) {

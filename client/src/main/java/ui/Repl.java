@@ -20,7 +20,7 @@ public class Repl implements NotificationHandler {
 
     private static WebSocketFacade webSocketFacade;
 
-    private int port;
+    private final int port;
     private static String authToken;
     private static int gameID;
     private static ChessGame game;
@@ -28,11 +28,11 @@ public class Repl implements NotificationHandler {
 
     public Repl(int port) {
         this.port = port;
-        webSocketFacade = new WebSocketFacade(8080, this);
+        webSocketFacade = new WebSocketFacade(port, this);
     }
 
 
-    public static void run(String authToken, int gameID, ChessGame.TeamColor view, boolean isObserving) throws IOException {
+    public void run(String authToken, int gameID, ChessGame.TeamColor view, boolean isObserving) throws IOException {
         Repl.authToken = authToken;
         Repl.gameID = gameID;
 
@@ -42,11 +42,14 @@ public class Repl implements NotificationHandler {
         game = new ChessGame();
 
         if (isObserving) {
-            ChessBoard.printChessBoard(chessBoard, ChessGame.TeamColor.WHITE);
+            webSocketFacade = new WebSocketFacade(port,this);
+            webSocketFacade.joinObserver(authToken, gameID);
         } else if (view == ChessGame.TeamColor.WHITE){
-            ChessBoard.printChessBoard(chessBoard, ChessGame.TeamColor.WHITE);
+            webSocketFacade = new WebSocketFacade(port,this);
+            webSocketFacade.joinPlayer(authToken, gameID, ChessGame.TeamColor.WHITE);
         } else if (view == ChessGame.TeamColor.BLACK) {
-            ChessBoard.printChessBoard(chessBoard, ChessGame.TeamColor.BLACK);
+            webSocketFacade = new WebSocketFacade(port,this);
+            webSocketFacade.joinPlayer(authToken, gameID, ChessGame.TeamColor.BLACK);
         }
 
         help();

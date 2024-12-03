@@ -1,10 +1,9 @@
 package websocket;
 
+import chess.ChessGame;
 import chess.ChessMove;
 import com.google.gson.Gson;
-import websocket.commands.LeaveCommand;
-import websocket.commands.MakeMoveCommand;
-import websocket.commands.UserGameCommand;
+import websocket.commands.*;
 import websocket.messages.ErrorMessage;
 import websocket.messages.LoadGameMessage;
 import websocket.messages.NotificationMessage;
@@ -77,4 +76,23 @@ public class WebSocketFacade extends Endpoint{
             System.out.println(ex.getMessage());
         }
     }
+
+    public void joinObserver(String authToken, int gameID) throws IOException {
+        try {
+            UserGameCommand command = new JoinObserverCommand(authToken, gameID);
+            this.session.getBasicRemote().sendText(new Gson().toJson(command));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void joinPlayer(String authToken, int gameID, ChessGame.TeamColor playerColor) {
+        try {
+            UserGameCommand command = new JoinPlayerCommand(authToken, gameID, playerColor);
+            this.session.getBasicRemote().sendText(new Gson().toJson(command));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
