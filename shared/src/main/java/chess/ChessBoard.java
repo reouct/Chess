@@ -100,9 +100,16 @@ public class ChessBoard {
                 '}';
     }
 
-    public void highlightPosition(ChessPosition endPosition) {
-        int row = endPosition.getRow() -1;
-        int col = endPosition.getColumn() -1;
-        squares[row][col] = new ChessPiece(null, HIGHLIGHT);
+    public void highlightPosition(ChessPosition endPosition, ChessGame.TeamColor view) {
+        if (view == ChessGame.TeamColor.WHITE) {
+            int row = endPosition.getRow() -1;
+            int col = endPosition.getColumn() -1;
+            squares[row][col] = new ChessPiece(null, HIGHLIGHT);
+        } else {
+            int row = 8 - endPosition.getRow();
+            int col = 8 - endPosition.getColumn();
+            squares[row][col] = new ChessPiece(null, HIGHLIGHT);
+        }
+
     }
 }

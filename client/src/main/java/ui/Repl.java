@@ -106,6 +106,11 @@ public class Repl implements NotificationHandler {
         int row = Character.getNumericValue(position.charAt(1));
         int col = 1 + (position.charAt(0) - 'a');
 
+        if (view == ChessGame.TeamColor.BLACK) {
+            row = 9 - row;
+            col = 9 - col;
+        }
+
         ChessPosition chessPosition = new ChessPosition(row, col);
         ChessPiece piece = game.getBoard().getPiece(chessPosition);
 
@@ -120,11 +125,12 @@ public class Repl implements NotificationHandler {
             System.out.println("No legal moves available for this piece.");
         } else {
             System.out.println("Legal moves:");
+            chess.ChessBoard tempBoard = new chess.ChessBoard(game.getBoard());
             for (ChessMove move : legalMoves) {
                 ChessPosition endPosition = move.getEndPosition();
-                game.getBoard().highlightPosition(endPosition);
+                tempBoard.highlightPosition(endPosition, view);
             }
-            redrawChessBoard();
+            ChessBoard.printChessBoard(tempBoard,view);
         }
     }
 
