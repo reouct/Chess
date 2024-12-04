@@ -3,6 +3,8 @@ package chess;
 import java.util.Arrays;
 import java.util.Objects;
 
+import static chess.ChessPiece.PieceType.HIGHLIGHT;
+
 /**
  * A chessboard that can hold and rearrange chess pieces.
  * <p>
@@ -96,5 +98,11 @@ public class ChessBoard {
         return "ChessBoard{" +
                 "squares=" + Arrays.deepToString(squares) +
                 '}';
+    }
+
+    public void highlightPosition(ChessPosition endPosition) {
+        int row = endPosition.getRow() -1;
+        int col = endPosition.getColumn() -1;
+        squares[row][col] = new ChessPiece(null, HIGHLIGHT);
     }
 }

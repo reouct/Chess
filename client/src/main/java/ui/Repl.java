@@ -13,6 +13,7 @@ import websocket.messages.NotificationMessage;
 import websocket.messages.ServerMessage;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Repl implements NotificationHandler {
@@ -98,7 +99,33 @@ public class Repl implements NotificationHandler {
     }
 
     private static void highlightLegalMoves() {
-        System.out.println("not implemented");
+        System.out.println("Enter the position of the piece to highlight moves (for example a1):");
+        String position = scanner.next().toLowerCase();
+        scanner.nextLine();
+
+        int row = Character.getNumericValue(position.charAt(1));
+        int col = 1 + (position.charAt(0) - 'a');
+
+        ChessPosition chessPosition = new ChessPosition(row, col);
+        ChessPiece piece = game.getBoard().getPiece(chessPosition);
+
+        if (piece == null) {
+            System.out.println("Invalid piece");
+            return;
+        }
+
+        List<ChessMove> legalMoves = (List<ChessMove>) game.validMoves(chessPosition);
+
+        if (legalMoves.isEmpty()) {
+            System.out.println("No legal moves available for this piece.");
+        } else {
+            System.out.println("Legal moves:");
+            for (ChessMove move : legalMoves) {
+                ChessPosition endPosition = move.getEndPosition();
+                game.getBoard().highlightPosition(endPosition);
+            }
+            redrawChessBoard();
+        }
     }
 
     private static void makeMove() {
@@ -119,6 +146,13 @@ public class Repl implements NotificationHandler {
         ChessPosition endPosition = new ChessPosition(endRow, endCol);
 
         ChessPiece.PieceType promotionPieceType = getPromotionPieceType(startRow, startCol, endRow, startPosition);
+
+        // Check if the end position contains an opponent's piece
+        ChessPiece targetPiece = game.getBoard().getPiece(endPosition);
+        if (targetPiece != null && targetPiece.getTeamColor() != game.getBoard().getPiece(startPosition).getTeamColor()) {
+            System.out.println("Captured " + targetPiece.getPieceType() + " at " + e);
+            game.getBoard().removePiece(endPosition);
+        }
 
         ChessMove move = new ChessMove(startPosition, endPosition, promotionPieceType);
 
@@ -155,7 +189,7 @@ public class Repl implements NotificationHandler {
             }
             case LOAD_GAME -> {
                 LoadGameMessage loadGameMessage = (LoadGameMessage) notification;
-                ChessGame game = loadGameMessage.getGame();
+                game = loadGameMessage.getGame();
                 System.out.println(" ");
                 ChessBoard.printChessBoard(game.getBoard(), view);
             }

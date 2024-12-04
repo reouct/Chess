@@ -32,7 +32,8 @@ public class ChessPiece {
         BISHOP,
         KNIGHT,
         ROOK,
-        PAWN
+        PAWN,
+        HIGHLIGHT
     }
 
     /**

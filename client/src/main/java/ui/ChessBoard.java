@@ -52,6 +52,7 @@ public class ChessBoard {
                     ? SET_TEXT_COLOR_BLUE + "N" : SET_TEXT_COLOR_RED + "N";
             case PAWN -> (piece.getTeamColor() == ChessGame.TeamColor.WHITE)
                     ? SET_TEXT_COLOR_BLUE + "P" : SET_TEXT_COLOR_RED + "P";
+            case HIGHLIGHT -> SET_BG_COLOR_GREEN + " ";
         };
     }
 
@@ -88,6 +89,8 @@ public class ChessBoard {
                 }
             }
         }
+
+        // Highlight moves
 
 
         for (int r = 0; r < 10; ++r) {
