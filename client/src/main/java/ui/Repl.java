@@ -138,9 +138,19 @@ public class Repl implements NotificationHandler {
         System.out.println("Start Position: (for example a1)");
         String s = scanner.next().toLowerCase();
         scanner.nextLine();
+        while (!s.matches("^[a-h][1-8]$")) {
+            System.out.println("Invalid input. Please enter a valid position (for example a1):");
+            s = scanner.next().toLowerCase();
+            scanner.nextLine();
+        }
         System.out.println("End Position: (for example a2)");
         String e = scanner.next().toLowerCase();
         scanner.nextLine();
+        while (!e.matches("^[a-h][1-8]$")) {
+            System.out.println("Invalid input. Please enter a valid position (for example a2):");
+            e = scanner.next().toLowerCase();
+            scanner.nextLine();
+        }
 
         int startRow = Character.getNumericValue(s.charAt(1));
         int startCol = 1 + (s.charAt(0) - 'a');
@@ -151,11 +161,29 @@ public class Repl implements NotificationHandler {
         ChessPosition startPosition = new ChessPosition(startRow, startCol);
         ChessPosition endPosition = new ChessPosition(endRow, endCol);
 
-        ChessPiece.PieceType promotionPieceType = getPromotionPieceType(startRow, startCol, endRow, startPosition);
+        ChessPiece piece = game.getBoard().getPiece(startPosition);
+        if (piece == null) {
+            System.out.println("No piece at the start position.");
+            return;
+        }
+
+        // Check if the move is valid
+        List<ChessMove> validMoves = (List<ChessMove>) game.validMoves(startPosition);
+//        boolean isValidMove = validMoves.stream().anyMatch(move -> move.getEndPosition().equals(endPosition));
+//        if (!isValidMove) {
+//            System.out.println("Invalid move for the selected piece.");
+//            return;
+//        }
+
+        // Handle pawn promotion
+        ChessPiece.PieceType promotionPieceType = null;
+        if (piece.getPieceType() == ChessPiece.PieceType.PAWN && (endRow == 1 || endRow == 8)) {
+            promotionPieceType = getPromotionPieceType(startRow, startCol, endRow, startPosition);
+        }
 
         // Check if the end position contains an opponent's piece
         ChessPiece targetPiece = game.getBoard().getPiece(endPosition);
-        if (targetPiece != null && targetPiece.getTeamColor() != game.getBoard().getPiece(startPosition).getTeamColor()) {
+        if (targetPiece != null && targetPiece.getTeamColor() != piece.getTeamColor()) {
             System.out.println("Captured " + targetPiece.getPieceType() + " at " + e);
             game.getBoard().removePiece(endPosition);
         }
