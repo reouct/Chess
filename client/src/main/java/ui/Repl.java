@@ -90,7 +90,7 @@ public class Repl implements NotificationHandler {
     }
 
     private static void resign() {
-        System.out.println("not implemented");
+        webSocketFacade.resign(authToken, gameID);
     }
 
     private static void redrawChessBoard() {
@@ -118,9 +118,9 @@ public class Repl implements NotificationHandler {
         ChessPosition startPosition = new ChessPosition(startRow, startCol);
         ChessPosition endPosition = new ChessPosition(endRow, endCol);
 
-        ChessPiece.PieceType type = getPromotionPieceType(startRow, startCol, endRow, startPosition);
+        ChessPiece.PieceType promotionPieceType = getPromotionPieceType(startRow, startCol, endRow, startPosition);
 
-        ChessMove move = new ChessMove(startPosition, endPosition, type);
+        ChessMove move = new ChessMove(startPosition, endPosition, promotionPieceType);
 
         webSocketFacade.makeMove(authToken, gameID, move);
     }
