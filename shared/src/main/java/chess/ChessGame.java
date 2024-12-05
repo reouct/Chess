@@ -130,6 +130,10 @@ public class ChessGame {
         return isInCheckmate(getTeamTurn());
     }
 
+    public boolean isInCheck() {
+        return isInCheck(getTeamTurn());
+    }
+
     /**
      * Enum identifying the 2 possible teams in a chess game
      */

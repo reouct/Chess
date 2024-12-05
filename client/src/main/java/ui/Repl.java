@@ -91,7 +91,14 @@ public class Repl implements NotificationHandler {
     }
 
     private static void resign() {
-        webSocketFacade.resign(authToken, gameID);
+        System.out.println("Are you sure you want to resign? (yes/no)");
+        String response = scanner.next().toLowerCase();
+        scanner.nextLine();
+        if (response.equals("yes")) {
+            webSocketFacade.resign(authToken, gameID);
+        } else {
+            System.out.println("Resignation cancelled.");
+        }
     }
 
     private static void redrawChessBoard() {
@@ -102,14 +109,15 @@ public class Repl implements NotificationHandler {
         System.out.println("Enter the position of the piece to highlight moves (for example a1):");
         String position = scanner.next().toLowerCase();
         scanner.nextLine();
+        while (!position.matches("^[a-h][1-8]$")) {
+            System.out.println("Invalid input. Please enter a valid position (for example a1):");
+            position = scanner.next().toLowerCase();
+            scanner.nextLine();
+        }
 
         int row = Character.getNumericValue(position.charAt(1));
         int col = 1 + (position.charAt(0) - 'a');
 
-        if (view == ChessGame.TeamColor.BLACK) {
-            row = 9 - row;
-            col = 9 - col;
-        }
 
         ChessPosition chessPosition = new ChessPosition(row, col);
         ChessPiece piece = game.getBoard().getPiece(chessPosition);
@@ -124,13 +132,13 @@ public class Repl implements NotificationHandler {
         if (legalMoves.isEmpty()) {
             System.out.println("No legal moves available for this piece.");
         } else {
-            System.out.println("Legal moves:");
+            System.out.println("Legal moves for " + (view == ChessGame.TeamColor.WHITE ? "White" : "Black") + ":");
             chess.ChessBoard tempBoard = new chess.ChessBoard(game.getBoard());
             for (ChessMove move : legalMoves) {
                 ChessPosition endPosition = move.getEndPosition();
                 tempBoard.highlightPosition(endPosition, view);
             }
-            ChessBoard.printChessBoard(tempBoard,view);
+            ChessBoard.printChessBoard(tempBoard, view);
         }
     }
 
@@ -166,14 +174,6 @@ public class Repl implements NotificationHandler {
             System.out.println("No piece at the start position.");
             return;
         }
-
-        // Check if the move is valid
-//        List<ChessMove> validMoves = (List<ChessMove>) game.validMoves(startPosition);
-//        boolean isValidMove = validMoves.stream().anyMatch(move -> move.getEndPosition().equals(endPosition));
-//        if (!isValidMove) {
-//            System.out.println("Invalid move for the selected piece.");
-//            return;
-//        }
 
         // Handle pawn promotion
         ChessPiece.PieceType promotionPieceType = null;

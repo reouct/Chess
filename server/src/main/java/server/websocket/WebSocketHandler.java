@@ -238,12 +238,17 @@ public class WebSocketHandler {
                 lobby.broadcast(null, new Gson().toJson(message));
             }
             // Stalemate notification
-            if (game.isStalemate()) {
+            else if (game.isStalemate()) {
                 String output = "Stalemate! The game is a draw.";
                 NotificationMessage message = new NotificationMessage(output);
                 lobby.broadcast(null, new Gson().toJson(message));
             }
-
+            // In check notification
+            else if (game.isInCheck()) {
+                String output = "Check! " + (game.getTeamTurn() == ChessGame.TeamColor.WHITE ? "BLACK" : "WHITE") + " is in check.";
+                NotificationMessage message = new NotificationMessage(output);
+                lobby.broadcast(null, new Gson().toJson(message));
+            }
 
             GameData updatedGame = new GameData(gameID, data.whiteUsername(), data.blackUsername(), data.gameName(), game);
             gameDao.updateGame(updatedGame);
@@ -251,7 +256,7 @@ public class WebSocketHandler {
             LoadGameMessage loadGameMessage = new LoadGameMessage(game);
             lobby.broadcast(null, new Gson().toJson(loadGameMessage));
 
-            String output = username+" moved " + " from " + move.getStartPosition() + " to "+ move.getEndPosition();
+            String output = username+" moved " + move;
             NotificationMessage message = new NotificationMessage(output);
             lobby.broadcast(username, new Gson().toJson(message));
         } catch (IOException e) {
