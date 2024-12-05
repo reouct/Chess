@@ -230,13 +230,28 @@ public class WebSocketHandler {
                 lobby.send(username, new Gson().toJson(message));
                 return;
             }
+
+            // Checkmate notification
+            if(game.isCheckmate()) {
+                String output = "Checkmate! " + (game.getTeamTurn() == ChessGame.TeamColor.WHITE ? "BLACK" : "WHITE") + " wins.";
+                NotificationMessage message = new NotificationMessage(output);
+                lobby.broadcast(null, new Gson().toJson(message));
+            }
+            // Stalemate notification
+            if (game.isStalemate()) {
+                String output = "Stalemate! The game is a draw.";
+                NotificationMessage message = new NotificationMessage(output);
+                lobby.broadcast(null, new Gson().toJson(message));
+            }
+
+
             GameData updatedGame = new GameData(gameID, data.whiteUsername(), data.blackUsername(), data.gameName(), game);
             gameDao.updateGame(updatedGame);
 
             LoadGameMessage loadGameMessage = new LoadGameMessage(game);
             lobby.broadcast(null, new Gson().toJson(loadGameMessage));
 
-            String output = username+" moved.";
+            String output = username+" moved " + " from " + move.getStartPosition() + " to "+ move.getEndPosition();
             NotificationMessage message = new NotificationMessage(output);
             lobby.broadcast(username, new Gson().toJson(message));
         } catch (IOException e) {

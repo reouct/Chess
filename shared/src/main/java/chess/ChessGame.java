@@ -67,7 +67,7 @@ public class ChessGame {
 
     }
 
-    private boolean isStalemate() {
+    public boolean isStalemate() {
         if (isInCheck(turn)) {
             return false;
         }
@@ -124,6 +124,10 @@ public class ChessGame {
 
     public void setGameOver() {
         isGameOver = true;
+    }
+
+    public boolean isCheckmate() {
+        return isInCheckmate(getTeamTurn());
     }
 
     /**

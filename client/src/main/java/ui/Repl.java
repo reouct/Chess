@@ -168,7 +168,7 @@ public class Repl implements NotificationHandler {
         }
 
         // Check if the move is valid
-        List<ChessMove> validMoves = (List<ChessMove>) game.validMoves(startPosition);
+//        List<ChessMove> validMoves = (List<ChessMove>) game.validMoves(startPosition);
 //        boolean isValidMove = validMoves.stream().anyMatch(move -> move.getEndPosition().equals(endPosition));
 //        if (!isValidMove) {
 //            System.out.println("Invalid move for the selected piece.");
